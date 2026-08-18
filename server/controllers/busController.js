@@ -11,6 +11,17 @@ const searchBuses = async (req, res) => {
       });
     }
 
+    const selectedDate = new Date(`${date}T00:00:00`);
+
+    if (Number.isNaN(selectedDate.getTime())) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid travel date",
+      });
+    }
+
+    const dayOfWeek = selectedDate.getDay();
+
     const result = await pool.query(
       `
       SELECT
@@ -24,7 +35,6 @@ const searchBuses = async (req, res) => {
         b.total_seats,
         r.source,
         r.destination,
-        bs.travel_date,
         bs.departure_time,
         bs.arrival_time,
         bs.base_price
@@ -41,16 +51,18 @@ const searchBuses = async (req, res) => {
 
       WHERE LOWER(r.source) = LOWER($1)
         AND LOWER(r.destination) = LOWER($2)
-        AND bs.travel_date = $3
+        AND bs.day_of_week = $3
 
       ORDER BY bs.base_price ASC
       `,
-      [from.trim(), to.trim(), date],
+      [from.trim(), to.trim(), dayOfWeek],
     );
 
     res.json({
       success: true,
       count: result.rows.length,
+      travel_date: date,
+      day_of_week: dayOfWeek,
       buses: result.rows,
     });
   } catch (error) {
