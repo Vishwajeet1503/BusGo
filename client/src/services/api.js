@@ -33,3 +33,15 @@ export const getProfile = async (token) => {
 
   return response.json();
 };
+
+export const searchBuses = async (from, to, date) => {
+  const params = new URLSearchParams({
+    from,
+    to,
+    date,
+  });
+
+  const response = await fetch(`${API_URL}/buses/search?${params.toString()}`);
+
+  return response.json();
+};

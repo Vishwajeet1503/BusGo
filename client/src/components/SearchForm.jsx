@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SearchForm = () => {
+  const navigate = useNavigate();
+
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [date, setDate] = useState("");
@@ -8,11 +11,17 @@ const SearchForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    console.log({
+    if (!from || !to || !date) {
+      return;
+    }
+
+    const params = new URLSearchParams({
       from,
       to,
       date,
     });
+
+    navigate(`/search?${params.toString()}`);
   };
 
   const swapLocations = () => {

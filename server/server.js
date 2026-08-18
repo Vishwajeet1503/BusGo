@@ -6,6 +6,7 @@ const pool = require("./db/database");
 
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
+const busRoutes = require("./routes/busRoutes");
 
 const app = express();
 
@@ -40,6 +41,7 @@ app.get("/api/db-test", async (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/buses", busRoutes);
 
 const PORT = process.env.PORT || 5000;
 
