@@ -75,6 +75,97 @@ const searchBuses = async (req, res) => {
   }
 };
 
+const getBusDetails = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const busResult = await pool.query(
+      `
+      SELECT
+        bs.id AS schedule_id,
+        bo.name AS operator_name,
+        bo.rating AS operator_rating,
+        b.id AS bus_id,
+        b.bus_number,
+        b.bus_type,
+        b.total_seats,
+        r.source,
+        r.destination,
+        bs.day_of_week,
+        bs.departure_time,
+        bs.arrival_time,
+        bs.base_price
+      FROM bus_schedules bs
+
+      JOIN buses b
+        ON bs.bus_id = b.id
+
+      JOIN bus_operators bo
+        ON b.operator_id = bo.id
+
+      JOIN routes r
+        ON bs.route_id = r.id
+
+      WHERE bs.id = $1
+      `,
+      [id]
+    );
+
+    if (busResult.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Bus schedule not found"
+      });
+    }
+
+    const schedule = busResult.rows[0];
+
+    const boardingResult = await pool.query(
+      `
+      SELECT
+        id,
+        name,
+        address,
+        departure_time
+      FROM boarding_points
+      WHERE schedule_id = $1
+      ORDER BY departure_time
+      `,
+      [id]
+    );
+
+    const droppingResult = await pool.query(
+      `
+      SELECT
+        id,
+        name,
+        address,
+        arrival_time
+      FROM dropping_points
+      WHERE schedule_id = $1
+      ORDER BY arrival_time
+      `,
+      [id]
+    );
+
+    res.json({
+      success: true,
+      bus: schedule,
+      boardingPoints: boardingResult.rows,
+      droppingPoints: droppingResult.rows
+    });
+
+  } catch (error) {
+    console.error("Bus details error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to get bus details"
+    });
+  }
+};
+
 module.exports = {
   searchBuses,
+  getBusDetails
 };
