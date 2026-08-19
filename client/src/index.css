@@ -640,6 +640,269 @@ a {
   background: white;
 }
 
+/* Bus Details */
+
+.bus-details-page {
+  min-height: calc(100vh - 70px);
+  background: #f5f7fa;
+  padding: 35px 20px;
+}
+
+.bus-details-container {
+  max-width: 1150px;
+  margin: auto;
+}
+
+.bus-info-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 25px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 25px;
+}
+
+.bus-info-card h1 {
+  margin-bottom: 8px;
+}
+
+.bus-info-card p {
+  color: #6b7280;
+  margin-top: 5px;
+}
+
+.bus-time-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.bus-time-info strong {
+  font-size: 24px;
+}
+
+.bus-time-info small {
+  color: #6b7280;
+}
+
+.booking-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 25px;
+}
+
+.seat-section,
+.booking-summary {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 25px;
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.seat-legend {
+  display: flex;
+  gap: 15px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.seat-legend span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.legend {
+  width: 13px;
+  height: 13px;
+  border: 1px solid #999;
+  border-radius: 3px;
+}
+
+.legend.available {
+  background: white;
+}
+
+.legend.selected {
+  background: #d71920;
+  border-color: #d71920;
+}
+
+.legend.booked {
+  background: #d1d5db;
+  border-color: #d1d5db;
+}
+
+.bus-layout {
+  max-width: 400px;
+  margin: auto;
+  border: 1px solid #d1d5db;
+  border-radius: 15px;
+  padding: 25px;
+}
+
+.driver {
+  text-align: right;
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 700;
+  padding-bottom: 20px;
+  border-bottom: 1px dashed #d1d5db;
+  margin-bottom: 25px;
+}
+
+.seat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.seat {
+  height: 48px;
+
+  border: 1px solid #9ca3af;
+  border-radius: 7px;
+
+  background: white;
+  color: #374151;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.seat:hover:not(:disabled) {
+  border-color: #d71920;
+}
+
+.seat.selected {
+  background: #d71920;
+  border-color: #d71920;
+  color: white;
+}
+
+.seat.booked {
+  background: #d1d5db;
+  border-color: #d1d5db;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+.booking-summary h2 {
+  margin-bottom: 20px;
+}
+
+.route-summary {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 20px;
+}
+
+.summary-group {
+  margin-bottom: 20px;
+}
+
+.summary-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.summary-group select {
+  width: 100%;
+  padding: 12px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+
+  background: white;
+}
+
+.selected-seat-summary {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 18px 0;
+  border-top: 1px solid #e5e7eb;
+}
+
+.selected-seat-summary span {
+  color: #6b7280;
+}
+
+.total-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 20px 0;
+  border-top: 1px solid #e5e7eb;
+}
+
+.total-price strong {
+  font-size: 24px;
+}
+
+.continue-button {
+  width: 100%;
+}
+
+.continue-button:disabled {
+  background: #d1d5db;
+  cursor: not-allowed;
+}
+
+@media (max-width: 900px) {
+  .booking-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-summary {
+    order: -1;
+  }
+}
+
+@media (max-width: 600px) {
+  .bus-info-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .section-heading {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .seat-legend {
+    flex-wrap: wrap;
+  }
+
+  .seat-grid {
+    gap: 8px;
+  }
+
+  .seat {
+    height: 42px;
+  }
+}
+
 @media (max-width: 768px) {
   .results-layout {
     grid-template-columns: 1fr;

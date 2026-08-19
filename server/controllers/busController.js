@@ -78,6 +78,25 @@ const searchBuses = async (req, res) => {
 const getBusDetails = async (req, res) => {
   try {
     const { id } = req.params;
+    const { date } = req.query;
+
+    if (!date) {
+      return res.status(400).json({
+        success: false,
+        message: "Travel date is required"
+      });
+    }
+
+    const selectedDate = new Date(`${date}T00:00:00Z`);
+
+    if (Number.isNaN(selectedDate.getTime())) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid travel date"
+      });
+    }
+
+    const dayOfWeek = selectedDate.getUTCDay();
 
     const busResult = await pool.query(
       `
@@ -118,7 +137,50 @@ const getBusDetails = async (req, res) => {
       });
     }
 
-    const schedule = busResult.rows[0];
+    const bus = busResult.rows[0];
+
+    if (Number(bus.day_of_week) !== dayOfWeek) {
+      return res.status(400).json({
+        success: false,
+        message: "This bus does not operate on the selected date"
+      });
+    }
+
+    const seatsResult = await pool.query(
+      `
+      SELECT
+        id,
+        seat_number,
+        seat_type,
+        price
+      FROM seats
+      WHERE bus_id = $1
+      ORDER BY id
+      `,
+      [bus.bus_id]
+    );
+
+    const bookedSeatsResult = await pool.query(
+      `
+      SELECT DISTINCT bp.seat_id
+      FROM booking_passengers bp
+      JOIN bookings bk
+        ON bp.booking_id = bk.id
+      WHERE bk.schedule_id = $1
+        AND bk.travel_date = $2
+        AND bk.status IN ('PENDING', 'CONFIRMED')
+      `,
+      [id, date]
+    );
+
+    const bookedSeatIds = bookedSeatsResult.rows.map(
+      (row) => row.seat_id
+    );
+
+    const seats = seatsResult.rows.map((seat) => ({
+      ...seat,
+      isBooked: bookedSeatIds.includes(seat.id)
+    }));
 
     const boardingResult = await pool.query(
       `
@@ -150,7 +212,9 @@ const getBusDetails = async (req, res) => {
 
     res.json({
       success: true,
-      bus: schedule,
+      travelDate: date,
+      bus,
+      seats,
       boardingPoints: boardingResult.rows,
       droppingPoints: droppingResult.rows
     });

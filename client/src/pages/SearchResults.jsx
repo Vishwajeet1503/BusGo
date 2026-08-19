@@ -341,7 +341,7 @@ const SearchResults = () => {
 
                           <button
                             className="primary-button"
-                            onClick={() => navigate(`/bus/${bus.schedule_id}`)}
+                            onClick={() => navigate(`/bus/${bus.schedule_id}?date=${date}`)}
                           >
                             View Seats
                           </button>

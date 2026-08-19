@@ -45,3 +45,11 @@ export const searchBuses = async (from, to, date) => {
 
   return response.json();
 };
+
+export const getBusDetails = async (scheduleId, date) => {
+  const response = await fetch(
+    `${API_URL}/buses/${scheduleId}?date=${date}`
+  );
+
+  return response.json();
+};
