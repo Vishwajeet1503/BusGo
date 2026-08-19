@@ -494,18 +494,32 @@ a {
 }
 
 .filters {
-  background: white;
+  background: rgb(255, 255, 255);
   border: 1px solid #e5e7eb;
   border-radius: 10px;
   padding: 20px;
   height: fit-content;
 }
 
+/* Filter Sidebar */
+
+.filters {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 18px;
+  height: fit-content;
+}
+
 .filter-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 25px;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.filter-header h3 {
+  font-size: 18px;
 }
 
 .filter-header button {
@@ -513,34 +527,94 @@ a {
   background: transparent;
   color: #d71920;
   cursor: pointer;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 700;
 }
 
-.filter-group {
-  border-top: 1px solid #e5e7eb;
-  padding-top: 18px;
-  margin-top: 18px;
-}
+/* Filter Chips */
 
-.filter-group h4 {
-  margin-bottom: 14px;
-}
-
-.filter-group label {
+.filter-chips {
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filter-chip {
+  width: fit-content;
+  max-width: 100%;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  padding: 5px 16px;
+
+  border: 1px solid #b8b8b8;
+  border-radius: 9px;
+
+  background: #ffffff;
+  color: #222222;
+
+  font-size: 15px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.filter-chip:hover {
+  border-color: #d71920;
+}
+
+.filter-chip.active {
+  background: #ce3439;
+  border-color: #d71920;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.filter-chip-icon {
+  font-size: 17px;
+  line-height: 1;
+}
+
+.filter-chip-close {
+  font-size: 22px;
+  line-height: 14px;
+  margin-left: 3px;
+}
+
+/* Price Filter */
+
+.filter-price {
+  border-top: 1px solid #e5e7eb;
+  margin-top: 22px;
+  padding-top: 18px;
+}
+
+.filter-price-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 12px;
+}
+
+.filter-price-header h4 {
   font-size: 14px;
 }
 
-.filter-group input[type="range"] {
+.filter-price-header span {
+  color: #d71920;
+  font-weight: 700;
+}
+
+.filter-price input[type="range"] {
   width: 100%;
-}
-
-.filter-group p {
-  color: #6b7280;
-  font-size: 14px;
-  margin-top: 8px;
+  cursor: pointer;
 }
 
 .sort-bar {
@@ -575,6 +649,15 @@ a {
     width: 100%;
   }
 
+  .filter-chips {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .filter-chip {
+    font-size: 14px;
+  }
+
   .sort-bar {
     flex-direction: column;
     align-items: flex-start;
@@ -583,6 +666,15 @@ a {
 
   .sort-bar select {
     width: 100%;
+  }
+
+  .bus-main {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .price-section {
+    align-items: flex-start;
   }
 }
 
