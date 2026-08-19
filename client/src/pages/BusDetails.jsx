@@ -4,6 +4,45 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import { getBusDetails } from "../services/api";
 
+const calculateArrivalDateTime = (
+  travelDate,
+  departureTime,
+  durationMinutes,
+) => {
+  const departureDateTime = new Date(`${travelDate}T${departureTime}`);
+
+  const arrivalDateTime = new Date(
+    departureDateTime.getTime() + durationMinutes * 60 * 1000,
+  );
+
+  return arrivalDateTime;
+};
+
+const formatDateTime = (date) => {
+  return date.toLocaleString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+};
+
+const calculatePointDateTime = (travelDate, pointTime, departureTime) => {
+  const departureDateTime = new Date(`${travelDate}T${departureTime}`);
+
+  let pointDateTime = new Date(`${travelDate}T${pointTime}`);
+
+  // If the point time is earlier than departure time,
+  // the point is on the following day.
+  if (pointDateTime.getTime() < departureDateTime.getTime()) {
+    pointDateTime.setDate(pointDateTime.getDate() + 1);
+  }
+
+  return pointDateTime;
+};
+
 /* =========================================================
    SLEEPER SEAT COMPONENT
 ========================================================= */
@@ -129,6 +168,18 @@ const BusDetails = () => {
   );
 
   /* =========================================================
+     Calculate Arrival
+  ========================================================= */
+
+  const arrivalDateTime = bus
+    ? calculateArrivalDateTime(
+        date,
+        bus.departure_time,
+        Number(bus.duration_minutes),
+      )
+    : null;
+
+  /* =========================================================
      CONTINUE
   ========================================================= */
 
@@ -195,29 +246,64 @@ const BusDetails = () => {
               BUS INFORMATION
           ================================================= */}
 
-          <section className="bus-info-card">
-            <div>
-              <h1>{bus.operator_name}</h1>
+          <div className="bus-time-info">
+            <div className="time-point">
+              <strong>
+                {new Date(`${date}T${bus.departure_time}`).toLocaleTimeString(
+                  "en-IN",
+                  {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: true,
+                  },
+                )}
+              </strong>
 
-              <p>
-                {bus.bus_type} · {bus.bus_number}
-              </p>
+              <span>
+                {new Date(`${date}T${bus.departure_time}`).toLocaleDateString(
+                  "en-IN",
+                  {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  },
+                )}
+              </span>
 
-              <p>
-                {bus.source} → {bus.destination}
-              </p>
+              <small>{bus.source}</small>
             </div>
 
-            <div className="bus-time-info">
-              <strong>{bus.departure_time.slice(0, 5)}</strong>
+            <div className="journey-duration">
+              <span>
+                {Math.floor(bus.duration_minutes / 60)}h{" "}
+                {bus.duration_minutes % 60}m
+              </span>
 
-              <span>→</span>
-
-              <strong>{bus.arrival_time.slice(0, 5)}</strong>
-
-              <small>{date}</small>
+              <div className="duration-line">─────────────</div>
             </div>
-          </section>
+
+            <div className="time-point">
+              <strong>
+                {arrivalDateTime &&
+                  arrivalDateTime.toLocaleTimeString("en-IN", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: true,
+                  })}
+              </strong>
+
+              <span>
+                {arrivalDateTime &&
+                  arrivalDateTime.toLocaleDateString("en-IN", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  })}
+              </span>
+
+              <small>{bus.destination}</small>
+            </div>
+          </div>
 
           {/* =================================================
               BOOKING LAYOUT
@@ -444,11 +530,27 @@ const BusDetails = () => {
                 >
                   <option value="">Select boarding point</option>
 
-                  {boardingPoints.map((point) => (
-                    <option key={point.id} value={point.id}>
-                      {point.name} - {point.departure_time.slice(0, 5)}
-                    </option>
-                  ))}
+                  {boardingPoints.map((point) => {
+                    const boardingDateTime = calculatePointDateTime(
+                      date,
+                      point.departure_time,
+                      bus.departure_time,
+                    );
+
+                    return (
+                      <option key={point.id} value={point.id}>
+                        {point.name} -{" "}
+                        {boardingDateTime.toLocaleString("en-IN", {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          hour12: true,
+                        })}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
 
@@ -463,11 +565,27 @@ const BusDetails = () => {
                 >
                   <option value="">Select dropping point</option>
 
-                  {droppingPoints.map((point) => (
-                    <option key={point.id} value={point.id}>
-                      {point.name} - {point.arrival_time.slice(0, 5)}
-                    </option>
-                  ))}
+                  {droppingPoints.map((point) => {
+                    const droppingDateTime = calculatePointDateTime(
+                      date,
+                      point.arrival_time,
+                      bus.departure_time,
+                    );
+
+                    return (
+                      <option key={point.id} value={point.id}>
+                        {point.name} -{" "}
+                        {droppingDateTime.toLocaleString("en-IN", {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          hour12: true,
+                        })}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
 
