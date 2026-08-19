@@ -4,6 +4,32 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import { getBusDetails } from "../services/api";
 
+/* =========================================================
+   SLEEPER SEAT COMPONENT
+========================================================= */
+
+const SleeperSeat = ({ seat, selected, onClick }) => {
+  return (
+    <button
+      type="button"
+      disabled={seat.isBooked}
+      className={`
+        sleeper-seat
+        ${seat.isBooked ? "booked" : ""}
+        ${selected ? "selected" : ""}
+      `}
+      onClick={() => onClick(seat)}
+      title={seat.isBooked ? "Seat already booked" : `₹${seat.price}`}
+    >
+      <span className="sleeper-seat-label">{seat.seat_number}</span>
+    </button>
+  );
+};
+
+/* =========================================================
+   BUS DETAILS
+========================================================= */
+
 const BusDetails = () => {
   const { id } = useParams();
   const location = useLocation();
@@ -25,10 +51,15 @@ const BusDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  /* =========================================================
+     FETCH BUS DETAILS
+  ========================================================= */
+
   useEffect(() => {
     const fetchBusDetails = async () => {
       try {
         setLoading(true);
+        setError("");
 
         const result = await getBusDetails(id, date);
 
@@ -38,10 +69,11 @@ const BusDetails = () => {
         }
 
         setBus(result.bus);
-        setSeats(result.seats);
-        setBoardingPoints(result.boardingPoints);
-        setDroppingPoints(result.droppingPoints);
+        setSeats(result.seats || []);
+        setBoardingPoints(result.boardingPoints || []);
+        setDroppingPoints(result.droppingPoints || []);
       } catch (error) {
+        console.error(error);
         setError("Unable to load bus details");
       } finally {
         setLoading(false);
@@ -50,6 +82,24 @@ const BusDetails = () => {
 
     fetchBusDetails();
   }, [id, date]);
+
+  /* =========================================================
+     BUS TYPE
+  ========================================================= */
+
+  const isSleeper = bus?.bus_type?.toLowerCase().includes("sleeper");
+
+  /* =========================================================
+     SLEEPER DECKS
+  ========================================================= */
+
+  const lowerSeats = seats.filter((seat) => seat.seat_type === "LOWER");
+
+  const upperSeats = seats.filter((seat) => seat.seat_type === "UPPER");
+
+  /* =========================================================
+     SEAT SELECTION
+  ========================================================= */
 
   const toggleSeat = (seat) => {
     if (seat.isBooked) {
@@ -69,10 +119,18 @@ const BusDetails = () => {
     });
   };
 
+  /* =========================================================
+     TOTAL PRICE
+  ========================================================= */
+
   const totalAmount = selectedSeats.reduce(
     (total, seat) => total + Number(seat.price),
     0,
   );
+
+  /* =========================================================
+     CONTINUE
+  ========================================================= */
 
   const handleContinue = () => {
     if (selectedSeats.length === 0) {
@@ -95,6 +153,10 @@ const BusDetails = () => {
     });
   };
 
+  /* =========================================================
+     LOADING
+  ========================================================= */
+
   if (loading) {
     return (
       <>
@@ -104,6 +166,10 @@ const BusDetails = () => {
       </>
     );
   }
+
+  /* =========================================================
+     ERROR
+  ========================================================= */
 
   if (error) {
     return (
@@ -115,13 +181,19 @@ const BusDetails = () => {
     );
   }
 
+  /* =========================================================
+     MAIN UI
+  ========================================================= */
+
   return (
     <div>
       <Header />
 
       <main className="bus-details-page">
         <div className="bus-details-container">
-          {/* Bus information */}
+          {/* =================================================
+              BUS INFORMATION
+          ================================================= */}
 
           <section className="bus-info-card">
             <div>
@@ -147,8 +219,14 @@ const BusDetails = () => {
             </div>
           </section>
 
+          {/* =================================================
+              BOOKING LAYOUT
+          ================================================= */}
+
           <div className="booking-layout">
-            {/* Seat Selection */}
+            {/* =================================================
+                SEAT SELECTION
+            ================================================= */}
 
             <section className="seat-section">
               <div className="section-heading">
@@ -172,50 +250,190 @@ const BusDetails = () => {
                 </div>
               </div>
 
+              {/* =================================================
+                  BUS LAYOUT
+              ================================================= */}
+
               <div className="bus-layout">
                 <div className="driver">DRIVER</div>
 
-                <div className="seat-grid">
-                  {seats.map((seat, index) => {
-                    const isSelected = selectedSeats.some(
-                      (selected) => selected.id === seat.id,
-                    );
+                {/* =================================================
+                    SLEEPER BUS
+                ================================================= */}
 
-                    return (
-                      <button
-                        key={seat.id}
-                        type="button"
-                        disabled={seat.isBooked}
-                        className={`
-                          seat
-                          ${seat.isBooked ? "booked" : ""}
-                          ${isSelected ? "selected" : ""}
-                        `}
-                        onClick={() => toggleSeat(seat)}
-                        title={
-                          seat.isBooked
-                            ? "Seat already booked"
-                            : `₹${seat.price}`
-                        }
-                      >
-                        {seat.seat_number}
-                      </button>
-                    );
-                  })}
-                </div>
+                {isSleeper ? (
+                  <div className="sleeper-decks">
+                    {/* ==============================
+                        LOWER DECK
+                    ============================== */}
+
+                    <div className="sleeper-deck">
+                      <h3>Lower Deck</h3>
+
+                      <div className="sleeper-layout">
+                        {/* LEFT SIDE
+                            L01
+                            L04
+                            L07
+                            L10
+                            L13
+                            L16
+                        */}
+
+                        <div className="sleeper-left">
+                          {lowerSeats
+                            .filter((_, index) => index % 3 === 0)
+                            .map((seat) => (
+                              <SleeperSeat
+                                key={seat.id}
+                                seat={seat}
+                                selected={selectedSeats.some(
+                                  (selected) => selected.id === seat.id,
+                                )}
+                                onClick={toggleSeat}
+                              />
+                            ))}
+                        </div>
+
+                        {/* RIGHT SIDE
+                            L02 L03
+                            L05 L06
+                            L08 L09
+                            L11 L12
+                            L14 L15
+                            L17 L18
+                        */}
+
+                        <div className="sleeper-right">
+                          {lowerSeats
+                            .filter((_, index) => index % 3 !== 0)
+                            .map((seat) => (
+                              <SleeperSeat
+                                key={seat.id}
+                                seat={seat}
+                                selected={selectedSeats.some(
+                                  (selected) => selected.id === seat.id,
+                                )}
+                                onClick={toggleSeat}
+                              />
+                            ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* ==============================
+                        UPPER DECK
+                    ============================== */}
+
+                    <div className="sleeper-deck">
+                      <h3>Upper Deck</h3>
+
+                      <div className="sleeper-layout">
+                        {/* LEFT SIDE
+                            U01
+                            U04
+                            U07
+                            U10
+                            U13
+                            U16
+                        */}
+
+                        <div className="sleeper-left">
+                          {upperSeats
+                            .filter((_, index) => index % 3 === 0)
+                            .map((seat) => (
+                              <SleeperSeat
+                                key={seat.id}
+                                seat={seat}
+                                selected={selectedSeats.some(
+                                  (selected) => selected.id === seat.id,
+                                )}
+                                onClick={toggleSeat}
+                              />
+                            ))}
+                        </div>
+
+                        {/* RIGHT SIDE
+                            U02 U03
+                            U05 U06
+                            U08 U09
+                            U11 U12
+                            U14 U15
+                            U17 U18
+                        */}
+
+                        <div className="sleeper-right">
+                          {upperSeats
+                            .filter((_, index) => index % 3 !== 0)
+                            .map((seat) => (
+                              <SleeperSeat
+                                key={seat.id}
+                                seat={seat}
+                                selected={selectedSeats.some(
+                                  (selected) => selected.id === seat.id,
+                                )}
+                                onClick={toggleSeat}
+                              />
+                            ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  /* =================================================
+                     SEATER BUS
+                  ================================================= */
+
+                  <div className="seater-layout">
+                    {seats.map((seat) => {
+                      const isSelected = selectedSeats.some(
+                        (selected) => selected.id === seat.id,
+                      );
+
+                      return (
+                        <button
+                          key={seat.id}
+                          type="button"
+                          disabled={seat.isBooked}
+                          className={`
+                            seat
+                            ${seat.isBooked ? "booked" : ""}
+                            ${isSelected ? "selected" : ""}
+                          `}
+                          onClick={() => toggleSeat(seat)}
+                          title={
+                            seat.isBooked
+                              ? "Seat already booked"
+                              : `₹${seat.price}`
+                          }
+                        >
+                          {seat.seat_number}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             </section>
 
-            {/* Booking Summary */}
+            {/* =================================================
+                BOOKING SUMMARY
+            ================================================= */}
 
             <aside className="booking-summary">
               <h2>Trip Details</h2>
 
+              {/* Route */}
+
               <div className="route-summary">
                 <strong>{bus.source}</strong>
+
                 <span>→</span>
+
                 <strong>{bus.destination}</strong>
               </div>
+
+              {/* Boarding Point */}
 
               <div className="summary-group">
                 <label>Boarding Point</label>
@@ -234,6 +452,8 @@ const BusDetails = () => {
                 </select>
               </div>
 
+              {/* Dropping Point */}
+
               <div className="summary-group">
                 <label>Dropping Point</label>
 
@@ -251,6 +471,8 @@ const BusDetails = () => {
                 </select>
               </div>
 
+              {/* Selected Seats */}
+
               <div className="selected-seat-summary">
                 <span>Selected Seats</span>
 
@@ -261,14 +483,21 @@ const BusDetails = () => {
                 </strong>
               </div>
 
+              {/* Total */}
+
               <div className="total-price">
                 <span>Total</span>
 
                 <strong>₹{totalAmount}</strong>
               </div>
 
+              {/* Continue */}
+
               <button
-                className="primary-button continue-button"
+                className="
+                  primary-button
+                  continue-button
+                "
                 disabled={
                   selectedSeats.length === 0 || !boardingPoint || !droppingPoint
                 }

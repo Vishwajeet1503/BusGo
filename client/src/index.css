@@ -15,7 +15,9 @@ a {
   color: inherit;
 }
 
-/* Header */
+/* =========================================================
+   HEADER
+========================================================= */
 
 .header {
   background: #ffffff;
@@ -72,7 +74,9 @@ a {
   color: #6b7280;
 }
 
-/* Hero */
+/* =========================================================
+   HERO
+========================================================= */
 
 .hero {
   min-height: 520px;
@@ -114,7 +118,9 @@ a {
   margin-bottom: 35px;
 }
 
-/* Search */
+/* =========================================================
+   SEARCH
+========================================================= */
 
 .search-form {
   background: white;
@@ -188,7 +194,9 @@ a {
   opacity: 0.9;
 }
 
-/* Features */
+/* =========================================================
+   FEATURES
+========================================================= */
 
 .features {
   max-width: 1200px;
@@ -217,7 +225,9 @@ a {
   color: #6b7280;
 }
 
-/* Authentication */
+/* =========================================================
+   AUTHENTICATION
+========================================================= */
 
 .auth-page {
   min-height: 100vh;
@@ -270,6 +280,10 @@ a {
   font-weight: 700;
 }
 
+/* =========================================================
+   MESSAGES
+========================================================= */
+
 .error-message,
 .success-message {
   padding: 12px;
@@ -287,43 +301,22 @@ a {
   color: #166534;
 }
 
-/* Responsive */
-
-@media (max-width: 768px) {
-  .header-container {
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .nav {
-    gap: 12px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .hero {
-    min-height: auto;
-  }
-
-  .hero h1 {
-    font-size: 38px;
-  }
-
-  .search-form {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .swap-button {
-    align-self: center;
-  }
-
-  .features {
-    grid-template-columns: 1fr;
-  }
+.state-message,
+.empty-state {
+  background: white;
+  padding: 50px;
+  text-align: center;
+  border-radius: 10px;
 }
 
-/* Search Results */
+.empty-state p {
+  color: #6b7280;
+  margin-top: 10px;
+}
+
+/* =========================================================
+   SEARCH RESULTS
+========================================================= */
 
 .results-page {
   min-height: calc(100vh - 70px);
@@ -365,143 +358,15 @@ a {
   font-weight: 600;
 }
 
-.bus-list {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.bus-card {
-  background: white;
-
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-
-  overflow: hidden;
-}
-
-.bus-main {
-  padding: 24px;
-
-  display: grid;
-  grid-template-columns: 1.2fr 2fr 0.8fr;
-
-  gap: 25px;
-  align-items: center;
-}
-
-.operator-section h2 {
-  font-size: 18px;
-  margin-bottom: 7px;
-}
-
-.operator-section p {
-  color: #6b7280;
-  margin-bottom: 10px;
-}
-
-.rating {
-  display: inline-block;
-
-  background: #dcfce7;
-  color: #166534;
-
-  padding: 5px 8px;
-  border-radius: 5px;
-
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.time-section {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-
-  text-align: center;
-}
-
-.time-section div {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.time-section strong {
-  font-size: 20px;
-}
-
-.time-section span {
-  font-size: 13px;
-  color: #6b7280;
-}
-
-.journey-line {
-  color: #9ca3af;
-  letter-spacing: -2px;
-}
-
-.price-section {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 8px;
-}
-
-.price {
-  font-size: 23px;
-  font-weight: 800;
-}
-
-.price-section span:last-child {
-  color: #6b7280;
-  font-size: 13px;
-}
-
-.bus-footer {
-  border-top: 1px solid #e5e7eb;
-
-  padding: 15px 24px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.bus-footer span {
-  color: #6b7280;
-  font-size: 14px;
-}
-
-.state-message,
-.empty-state {
-  background: white;
-  padding: 50px;
-  text-align: center;
-  border-radius: 10px;
-}
-
-.empty-state p {
-  color: #6b7280;
-  margin-top: 10px;
-}
-
 .results-layout {
   display: grid;
   grid-template-columns: 240px 1fr;
   gap: 24px;
 }
 
-.filters {
-  background: rgb(255, 255, 255);
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 20px;
-  height: fit-content;
-}
-
-/* Filter Sidebar */
+/* =========================================================
+   FILTER SIDEBAR
+========================================================= */
 
 .filters {
   background: #ffffff;
@@ -617,6 +482,10 @@ a {
   cursor: pointer;
 }
 
+/* =========================================================
+   SORTING
+========================================================= */
+
 .sort-bar {
   background: white;
   border: 1px solid #e5e7eb;
@@ -640,7 +509,122 @@ a {
   background: white;
 }
 
-/* Bus Details */
+/* =========================================================
+   BUS CARDS
+========================================================= */
+
+.bus-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.bus-card {
+  background: white;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+
+  overflow: hidden;
+}
+
+.bus-main {
+  padding: 24px;
+
+  display: grid;
+  grid-template-columns: 1.2fr 2fr 0.8fr;
+
+  gap: 25px;
+  align-items: center;
+}
+
+.operator-section h2 {
+  font-size: 18px;
+  margin-bottom: 7px;
+}
+
+.operator-section p {
+  color: #6b7280;
+  margin-bottom: 10px;
+}
+
+.rating {
+  display: inline-block;
+
+  background: #dcfce7;
+  color: #166534;
+
+  padding: 5px 8px;
+  border-radius: 5px;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.time-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  text-align: center;
+}
+
+.time-section div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.time-section strong {
+  font-size: 20px;
+}
+
+.time-section span {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.journey-line {
+  color: #9ca3af;
+  letter-spacing: -2px;
+}
+
+.price-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.price {
+  font-size: 23px;
+  font-weight: 800;
+}
+
+.price-section span:last-child {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.bus-footer {
+  border-top: 1px solid #e5e7eb;
+
+  padding: 15px 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bus-footer span {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* =========================================================
+   BUS DETAILS
+========================================================= */
 
 .bus-details-page {
   min-height: calc(100vh - 70px);
@@ -710,6 +694,10 @@ a {
   margin-bottom: 25px;
 }
 
+/* =========================================================
+   SEAT LEGEND
+========================================================= */
+
 .seat-legend {
   display: flex;
   gap: 15px;
@@ -744,12 +732,20 @@ a {
   border-color: #d1d5db;
 }
 
+/* =========================================================
+   BUS LAYOUT CONTAINER
+========================================================= */
+
 .bus-layout {
-  max-width: 400px;
+  max-width: 500px;
   margin: auto;
+
   border: 1px solid #d1d5db;
   border-radius: 15px;
+
   padding: 25px;
+
+  background: #ffffff;
 }
 
 .driver {
@@ -757,16 +753,51 @@ a {
   color: #6b7280;
   font-size: 12px;
   font-weight: 700;
+
   padding-bottom: 20px;
+
   border-bottom: 1px dashed #d1d5db;
+
   margin-bottom: 25px;
 }
 
-.seat-grid {
+/* =========================================================
+   SEATER — 40 SEATS
+========================================================= */
+
+.seater-layout {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+
+  grid-template-columns:
+    repeat(2, minmax(50px, 1fr))
+    28px
+    repeat(2, minmax(50px, 1fr));
+
   gap: 12px;
+
+  max-width: 400px;
+  margin: auto;
 }
+
+.seater-layout .seat:nth-child(4n + 1) {
+  grid-column: 1;
+}
+
+.seater-layout .seat:nth-child(4n + 2) {
+  grid-column: 2;
+}
+
+.seater-layout .seat:nth-child(4n + 3) {
+  grid-column: 4;
+}
+
+.seater-layout .seat:nth-child(4n + 4) {
+  grid-column: 5;
+}
+
+/*
+  The 28px middle column creates the aisle.
+*/
 
 .seat {
   height: 48px;
@@ -781,6 +812,11 @@ a {
   font-weight: 700;
 
   cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
 }
 
 .seat:hover:not(:disabled) {
@@ -797,8 +833,176 @@ a {
   background: #d1d5db;
   border-color: #d1d5db;
   color: #6b7280;
+
   cursor: not-allowed;
 }
+
+/* =========================================================
+   SLEEPER — 36 SEATS
+========================================================= */
+
+.sleeper-decks {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+}
+
+.sleeper-deck {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+
+  padding: 20px;
+
+  background: #fafafa;
+}
+
+.sleeper-deck h3 {
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+/*
+  Left side:
+  1 berth per row
+
+  Right side:
+  2 berths per row
+*/
+
+.sleeper-layout {
+  display: grid;
+
+  grid-template-columns: 70px 1fr;
+
+  gap: 30px;
+
+  max-width: 330px;
+  margin: auto;
+}
+
+.sleeper-left {
+  display: grid;
+  grid-template-columns: 1fr;
+
+  gap: 12px;
+}
+
+.sleeper-right {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 12px;
+}
+
+/* =========================================================
+   LONG SLEEPER BERTH
+========================================================= */
+
+.sleeper-seat {
+  height: 72px;
+  min-width: 55px;
+
+  border: 1px solid #9ca3af;
+  border-radius: 8px;
+
+  background: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  position: relative;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+/* Pillow / head area */
+
+.sleeper-seat::before {
+  content: "";
+
+  position: absolute;
+
+  top: 5px;
+  left: 7px;
+  right: 7px;
+
+  height: 10px;
+
+  border-radius: 4px;
+
+  border: 1px solid #d1d5db;
+}
+
+/* Inner long berth */
+
+.sleeper-seat::after {
+  content: "";
+
+  position: absolute;
+
+  left: 7px;
+  right: 7px;
+
+  top: 20px;
+  bottom: 7px;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 5px;
+}
+
+.sleeper-seat-label {
+  position: relative;
+  z-index: 2;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* Sleeper hover */
+
+.sleeper-seat:hover:not(:disabled) {
+  border-color: #d71920;
+}
+
+/* Sleeper selected */
+
+.sleeper-seat.selected {
+  background: #d71920;
+  border-color: #d71920;
+  color: white;
+}
+
+.sleeper-seat.selected::before,
+.sleeper-seat.selected::after {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Sleeper booked */
+
+.sleeper-seat.booked {
+  background: #d1d5db;
+  border-color: #d1d5db;
+
+  color: #6b7280;
+
+  cursor: not-allowed;
+}
+
+.sleeper-seat.booked::before,
+.sleeper-seat.booked::after {
+  border-color: #b8bdc5;
+}
+
+/* =========================================================
+   BOOKING SUMMARY
+========================================================= */
 
 .booking-summary h2 {
   margin-bottom: 20px;
@@ -807,8 +1011,11 @@ a {
 .route-summary {
   display: flex;
   justify-content: space-between;
+
   padding-bottom: 20px;
+
   border-bottom: 1px solid #e5e7eb;
+
   margin-bottom: 20px;
 }
 
@@ -818,13 +1025,16 @@ a {
 
 .summary-group label {
   display: block;
+
   font-size: 13px;
   font-weight: 700;
+
   margin-bottom: 8px;
 }
 
 .summary-group select {
   width: 100%;
+
   padding: 12px;
 
   border: 1px solid #d1d5db;
@@ -838,6 +1048,7 @@ a {
   justify-content: space-between;
 
   padding: 18px 0;
+
   border-top: 1px solid #e5e7eb;
 }
 
@@ -851,6 +1062,7 @@ a {
   align-items: center;
 
   padding: 20px 0;
+
   border-top: 1px solid #e5e7eb;
 }
 
@@ -867,6 +1079,10 @@ a {
   cursor: not-allowed;
 }
 
+/* =========================================================
+   TABLET
+========================================================= */
+
 @media (max-width: 900px) {
   .booking-layout {
     grid-template-columns: 1fr;
@@ -877,33 +1093,43 @@ a {
   }
 }
 
-@media (max-width: 600px) {
-  .bus-info-card {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-  }
+/* =========================================================
+   MOBILE
+========================================================= */
 
-  .section-heading {
+@media (max-width: 768px) {
+  .header-container {
     flex-direction: column;
-    align-items: flex-start;
     gap: 15px;
   }
 
-  .seat-legend {
+  .nav {
+    gap: 12px;
     flex-wrap: wrap;
+    justify-content: center;
   }
 
-  .seat-grid {
-    gap: 8px;
+  .hero {
+    min-height: auto;
   }
 
-  .seat {
-    height: 42px;
+  .hero h1 {
+    font-size: 38px;
   }
-}
 
-@media (max-width: 768px) {
+  .search-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .swap-button {
+    align-self: center;
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+  }
+
   .results-layout {
     grid-template-columns: 1fr;
   }
@@ -931,17 +1157,6 @@ a {
     width: 100%;
   }
 
-  .bus-main {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .price-section {
-    align-items: flex-start;
-  }
-}
-
-@media (max-width: 768px) {
   .results-header {
     flex-direction: column;
     align-items: flex-start;
@@ -963,5 +1178,97 @@ a {
 
   .bus-footer {
     padding: 15px;
+  }
+
+  .bus-info-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .section-heading {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .seat-legend {
+    flex-wrap: wrap;
+  }
+
+  .bus-layout {
+    padding: 18px 12px;
+  }
+
+  /* Seater mobile */
+
+  .seater-layout {
+    grid-template-columns:
+      repeat(2, minmax(40px, 1fr))
+      18px
+      repeat(2, minmax(40px, 1fr));
+
+    gap: 8px;
+  }
+
+  .seat {
+    height: 44px;
+  }
+
+  /* Sleeper mobile */
+
+  .sleeper-layout {
+    grid-template-columns: 55px 1fr;
+    gap: 18px;
+  }
+
+  .sleeper-seat {
+    height: 65px;
+    min-width: 45px;
+  }
+
+  .sleeper-deck {
+    padding: 15px 10px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 32px;
+  }
+
+  .hero-description {
+    font-size: 16px;
+  }
+
+  .results-page {
+    padding: 25px 12px;
+  }
+
+  .bus-details-page {
+    padding: 25px 12px;
+  }
+
+  .seat-section,
+  .booking-summary {
+    padding: 18px;
+  }
+
+  .sleeper-layout {
+    grid-template-columns: 48px 1fr;
+    gap: 12px;
+  }
+
+  .sleeper-seat {
+    height: 60px;
+    min-width: 40px;
+  }
+
+  .sleeper-seat-label {
+    font-size: 10px;
   }
 }
