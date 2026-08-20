@@ -5,6 +5,8 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import SearchResults from "./pages/SearchResults";
 import BusDetails from "./pages/BusDetails";
+import PassengerDetails from "./pages/PassengerDetails";
+import Payment from "./pages/Payment";
 
 const App = () => {
   return (
@@ -18,6 +20,10 @@ const App = () => {
       <Route path="/search" element={<SearchResults />} />
 
       <Route path="/bus/:id" element={<BusDetails />} />
+
+      <Route path="/passenger-details" element={<PassengerDetails />} />
+
+      <Route path="/payment" element={<Payment />} />
     </Routes>
   );
 };

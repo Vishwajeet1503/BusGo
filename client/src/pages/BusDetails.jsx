@@ -192,6 +192,14 @@ const BusDetails = () => {
       return;
     }
 
+    const selectedBoardingPoint = boardingPoints.find(
+      (point) => String(point.id) === String(boardingPoint),
+    );
+
+    const selectedDroppingPoint = droppingPoints.find(
+      (point) => String(point.id) === String(droppingPoint),
+    );
+
     navigate("/passenger-details", {
       state: {
         scheduleId: id,
@@ -199,6 +207,9 @@ const BusDetails = () => {
         selectedSeats,
         boardingPointId: boardingPoint,
         droppingPointId: droppingPoint,
+        boardingPoint: selectedBoardingPoint,
+        droppingPoint: selectedDroppingPoint,
+        bus,
         totalAmount,
       },
     });
