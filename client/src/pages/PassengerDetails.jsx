@@ -29,6 +29,11 @@ const PassengerDetails = () => {
 
   const [error, setError] = useState("");
 
+  const [contactDetails, setContactDetails] = useState({
+    whatsapp: "",
+    email: "",
+  });
+
   if (!selectedSeats || selectedSeats.length === 0) {
     return <div className="state-message">No seats selected.</div>;
   }
@@ -46,10 +51,29 @@ const PassengerDetails = () => {
     );
   };
 
+  const handleContactChange = (field, value) => {
+    setContactDetails((current) => ({
+      ...current,
+      [field]: value,
+    }));
+  };
+
   const handleContinue = (event) => {
     event.preventDefault();
 
     setError("");
+
+    const whatsappRegex = /^[6-9]\d{9}$/;
+
+    if (!whatsappRegex.test(contactDetails.whatsapp)) {
+      setError("Please enter a valid 10-digit WhatsApp number.");
+      return;
+    }
+
+    if (!contactDetails.email.trim()) {
+      setError("Please enter your email address.");
+      return;
+    }
 
     for (const passenger of passengers) {
       if (!passenger.name.trim() || !passenger.age || !passenger.gender) {
@@ -74,6 +98,7 @@ const PassengerDetails = () => {
         droppingPoint,
         bus,
         passengers,
+        contactDetails,
         totalAmount,
       },
     });
@@ -89,6 +114,52 @@ const PassengerDetails = () => {
         {error && <div className="form-error">{error}</div>}
 
         <form onSubmit={handleContinue}>
+          <section className="passenger-card">
+            <div className="passenger-card-header">
+              <h2>Contact Details</h2>
+            </div>
+
+            <p className="contact-info-text">
+              Your ticket details will be sent to the WhatsApp number and email
+              provided below.
+            </p>
+
+            <div className="contact-form-grid">
+              <div className="form-group">
+                <label>WhatsApp Number</label>
+
+                <div className="phone-input">
+                  <span>+91</span>
+
+                  <input
+                    type="tel"
+                    maxLength="10"
+                    placeholder="Enter 10-digit mobile number"
+                    value={contactDetails.whatsapp}
+                    onChange={(event) =>
+                      handleContactChange(
+                        "whatsapp",
+                        event.target.value.replace(/\D/g, ""),
+                      )
+                    }
+                  />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label>Email Address</label>
+
+                <input
+                  type="email"
+                  placeholder="Enter email address"
+                  value={contactDetails.email}
+                  onChange={(event) =>
+                    handleContactChange("email", event.target.value)
+                  }
+                />
+              </div>
+            </div>
+          </section>
           {passengers.map((passenger, index) => (
             <section className="passenger-card" key={passenger.seatId}>
               <div className="passenger-card-header">

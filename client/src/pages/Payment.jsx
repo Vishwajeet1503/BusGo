@@ -1,6 +1,18 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
+/* Bank List */
+const banks = [
+  "State Bank of India",
+  "HDFC Bank",
+  "ICICI Bank",
+  "Axis Bank",
+  "Kotak Mahindra Bank",
+  "Bank of Baroda",
+  "Punjab National Bank",
+  "Canara Bank",
+];
+
 const Payment = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -12,6 +24,7 @@ const Payment = () => {
     boardingPointId,
     droppingPointId,
     passengers,
+    contactDetails,
     totalAmount,
     bus,
     boardingPoint,
@@ -20,6 +33,22 @@ const Payment = () => {
 
   const [paymentMethod, setPaymentMethod] = useState("UPI");
   const [processing, setProcessing] = useState(false);
+
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+
+  const [cardDetails, setCardDetails] = useState({
+    number: "",
+    expiry: "",
+    cvv: "",
+    name: "",
+  });
+
+  const [selectedBank, setSelectedBank] = useState("");
+
+  const handlePaymentMethod = (method) => {
+    setPaymentMethod(method);
+    setShowPaymentModal(true);
+  };
 
   if (!location.state) {
     return <div className="state-message">Booking information not found.</div>;
@@ -196,6 +225,29 @@ const Payment = () => {
                 ))}
               </div>
             </section>
+
+            {/* Contact Details */}
+
+            <section className="checkout-card">
+              <h2>Contact Details</h2>
+
+              <div className="contact-summary">
+                <div>
+                  <label>WhatsApp</label>
+                  <strong>+91 {contactDetails?.whatsapp}</strong>
+                </div>
+
+                <div>
+                  <label>Email</label>
+                  <strong>{contactDetails?.email}</strong>
+                </div>
+              </div>
+
+              <p className="demo-payment-note">
+                Your ticket confirmation will be sent to the contact details
+                provided above.
+              </p>
+            </section>
           </div>
 
           {/* RIGHT SIDE */}
@@ -239,7 +291,7 @@ const Payment = () => {
                   name="payment"
                   value="UPI"
                   checked={paymentMethod === "UPI"}
-                  onChange={(event) => setPaymentMethod(event.target.value)}
+                  onChange={() => handlePaymentMethod("UPI")}
                 />
 
                 <span>UPI</span>
@@ -251,7 +303,7 @@ const Payment = () => {
                   name="payment"
                   value="CARD"
                   checked={paymentMethod === "CARD"}
-                  onChange={(event) => setPaymentMethod(event.target.value)}
+                  onChange={() => handlePaymentMethod("CARD")}
                 />
 
                 <span>Credit / Debit Card</span>
@@ -263,7 +315,7 @@ const Payment = () => {
                   name="payment"
                   value="NET_BANKING"
                   checked={paymentMethod === "NET_BANKING"}
-                  onChange={(event) => setPaymentMethod(event.target.value)}
+                  onChange={() => handlePaymentMethod("NET_BANKING")}
                 />
 
                 <span>Net Banking</span>
@@ -286,6 +338,166 @@ const Payment = () => {
           </aside>
         </div>
       </div>
+
+      {showPaymentModal && paymentMethod === "UPI" && (
+        <div className="payment-modal-overlay">
+          <div className="payment-modal">
+            <button
+              className="modal-close"
+              onClick={() => setShowPaymentModal(false)}
+            >
+              ×
+            </button>
+
+            <h2>Pay with UPI</h2>
+
+            <p>Scan the QR code using your UPI app.</p>
+
+            <div className="upi-qr">
+              <div className="qr-placeholder">DEMO QR</div>
+            </div>
+
+            <p className="demo-payment-note">
+              This is a simulated payment. No real transaction will occur.
+            </p>
+
+            <button
+              className="primary-button"
+              onClick={() => setShowPaymentModal(false)}
+            >
+              Continue
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showPaymentModal && paymentMethod === "CARD" && (
+        <div className="payment-modal-overlay">
+          <div className="payment-modal">
+            <button
+              className="modal-close"
+              onClick={() => setShowPaymentModal(false)}
+            >
+              ×
+            </button>
+
+            <h2>Card Details</h2>
+
+            <div className="modal-form">
+              <label>Cardholder Name</label>
+
+              <input
+                type="text"
+                placeholder="Name on card"
+                value={cardDetails.name}
+                onChange={(event) =>
+                  setCardDetails({
+                    ...cardDetails,
+                    name: event.target.value,
+                  })
+                }
+              />
+
+              <label>Card Number</label>
+
+              <input
+                type="text"
+                maxLength="16"
+                placeholder="1234 5678 9012 3456"
+                value={cardDetails.number}
+                onChange={(event) =>
+                  setCardDetails({
+                    ...cardDetails,
+                    number: event.target.value.replace(/\D/g, ""),
+                  })
+                }
+              />
+
+              <div className="card-input-row">
+                <div>
+                  <label>Expiry</label>
+
+                  <input
+                    type="text"
+                    maxLength="5"
+                    placeholder="MM/YY"
+                    value={cardDetails.expiry}
+                    onChange={(event) =>
+                      setCardDetails({
+                        ...cardDetails,
+                        expiry: event.target.value,
+                      })
+                    }
+                  />
+                </div>
+
+                <div>
+                  <label>CVV</label>
+
+                  <input
+                    type="password"
+                    maxLength="3"
+                    placeholder="CVV"
+                    value={cardDetails.cvv}
+                    onChange={(event) =>
+                      setCardDetails({
+                        ...cardDetails,
+                        cvv: event.target.value,
+                      })
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+
+            <button
+              className="primary-button"
+              onClick={() => setShowPaymentModal(false)}
+            >
+              Continue
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showPaymentModal && paymentMethod === "NET_BANKING" && (
+        <div className="payment-modal-overlay">
+          <div className="payment-modal">
+            <button
+              className="modal-close"
+              onClick={() => setShowPaymentModal(false)}
+            >
+              ×
+            </button>
+
+            <h2>Select Your Bank</h2>
+
+            <div className="bank-list">
+              {banks.map((bank) => (
+                <label className="bank-option" key={bank}>
+                  <input
+                    type="radio"
+                    name="bank"
+                    value={bank}
+                    checked={selectedBank === bank}
+                    onChange={(event) => setSelectedBank(event.target.value)}
+                  />
+
+                  <span>{bank}</span>
+                </label>
+              ))}
+            </div>
+
+            <button
+              className="primary-button"
+              disabled={!selectedBank}
+              onClick={() => setShowPaymentModal(false)}
+            >
+              Continue
+            </button>
+          </div>
+        </div>
+      )}
     </main>
   );
 };

@@ -1683,3 +1683,214 @@ a {
     gap: 15px;
   }
 }
+
+/* Contact Details */
+.contact-info-text {
+  margin: 0 0 22px;
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.contact-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.contact-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.contact-summary > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 16px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.contact-summary label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.contact-summary strong {
+  font-size: 15px;
+  font-weight: 600;
+  color: #172b4d;
+  word-break: break-word;
+}
+
+.contact-summary + .demo-payment-note {
+  margin-top: 15px;
+  text-align: left;
+}
+
+/* Contact input */
+.phone-input {
+  display: flex;
+  align-items: center;
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.phone-input span {
+  padding: 11px 12px;
+  background: #f3f4f6;
+  color: #374151;
+  font-size: 14px;
+  border-right: 1px solid #d1d5db;
+}
+
+.phone-input input {
+  flex: 1;
+  border: none !important;
+  border-radius: 0 !important;
+}
+
+.phone-input input:focus {
+  outline: none;
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+  .contact-summary,
+  .contact-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.payment-modal-overlay {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.55);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1000;
+
+  padding: 20px;
+}
+
+.payment-modal {
+  width: 100%;
+  max-width: 450px;
+
+  max-height: 90vh;
+  overflow-y: auto;
+
+  background: #ffffff;
+  border-radius: 14px;
+
+  padding: 28px;
+
+  position: relative;
+
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+.modal-close {
+  position: absolute;
+  right: 18px;
+  top: 15px;
+
+  border: none;
+  background: none;
+
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.upi-qr {
+  display: flex;
+  justify-content: center;
+  margin: 25px 0;
+}
+
+.qr-placeholder {
+  width: 210px;
+  height: 210px;
+
+  border: 8px solid #111827;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 24px;
+  font-weight: 700;
+  color: #e40b0b;
+
+  background: repeating-linear-gradient(
+    45deg,
+    #ffffff,
+    #ffffff 6px,
+    #111827 6px,
+    #111827 10px
+  );
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  margin: 20px 0;
+}
+
+.modal-form input {
+  padding: 12px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+
+  margin-bottom: 8px;
+}
+
+.card-input-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.card-input-row div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bank-list {
+  display: flex;
+  flex-direction: column;
+
+  margin: 20px 0;
+}
+
+.bank-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 14px;
+
+  border-bottom: 1px solid #e5e7eb;
+
+  cursor: pointer;
+}
+
+.bank-option:hover {
+  background: #f9fafb;
+}
