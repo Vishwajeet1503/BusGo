@@ -710,8 +710,147 @@ const getBookingById = async (req, res) => {
   }
 };
 
+const cancelBooking = async (req, res) => {
+  const client = await pool.connect();
+
+  try {
+    const userId = req.user.userId;
+    const bookingId = Number(req.params.id);
+
+    if (!Number.isInteger(bookingId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid booking ID",
+      });
+    }
+
+    await client.query("BEGIN");
+
+    // Lock the booking so another operation
+    // cannot modify it at the same time.
+    const bookingResult = await client.query(
+      `
+      SELECT
+        id,
+        user_id,
+        travel_date,
+        status,
+        total_amount
+      FROM bookings
+      WHERE id = $1
+        AND user_id = $2
+      FOR UPDATE
+      `,
+      [bookingId, userId]
+    );
+
+    if (bookingResult.rows.length === 0) {
+      await client.query("ROLLBACK");
+
+      return res.status(404).json({
+        success: false,
+        message: "Booking not found",
+      });
+    }
+
+    const booking = bookingResult.rows[0];
+
+    // Already cancelled
+    if (booking.status === "CANCELLED") {
+      await client.query("ROLLBACK");
+
+      return res.status(400).json({
+        success: false,
+        message: "Booking is already cancelled",
+      });
+    }
+
+    // Only confirmed bookings can be cancelled
+    if (booking.status !== "CONFIRMED") {
+      await client.query("ROLLBACK");
+
+      return res.status(400).json({
+        success: false,
+        message:
+          "Only confirmed bookings can be cancelled",
+      });
+    }
+
+    // Prevent cancellation of past journeys
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const travelDate = new Date(
+      booking.travel_date
+    );
+
+    travelDate.setHours(0, 0, 0, 0);
+
+    if (travelDate < today) {
+      await client.query("ROLLBACK");
+
+      return res.status(400).json({
+        success: false,
+        message:
+          "Past bookings cannot be cancelled",
+      });
+    }
+
+    // Cancel the booking
+    await client.query(
+      `
+      UPDATE bookings
+      SET status = 'CANCELLED'
+      WHERE id = $1
+      `,
+      [bookingId]
+    );
+
+    // Simulated refund
+    await client.query(
+      `
+      UPDATE payments
+      SET status = 'REFUNDED'
+      WHERE booking_id = $1
+        AND status = 'SUCCESS'
+      `,
+      [bookingId]
+    );
+
+    await client.query("COMMIT");
+
+    res.json({
+      success: true,
+      message: "Booking cancelled successfully",
+      booking: {
+        id: booking.id,
+        status: "CANCELLED",
+        refundAmount: booking.total_amount,
+      },
+    });
+
+  } catch (error) {
+    await client.query("ROLLBACK");
+
+    console.error(
+      "Cancel booking error:",
+      error
+    );
+
+    res.status(500).json({
+      success: false,
+      message:
+        "Failed to cancel booking",
+    });
+
+  } finally {
+    client.release();
+  }
+};
+
 module.exports = {
   createBooking,
   getUserBookings,
   getBookingById,
+  cancelBooking,
 };
