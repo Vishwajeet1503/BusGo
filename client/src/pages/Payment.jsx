@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import API_URL from "../config";
 
 /* Bank List */
 const banks = [
@@ -105,7 +106,7 @@ const Payment = () => {
       }));
 
       // Send booking request to backend
-      const response = await fetch("http://localhost:5000/api/bookings", {
+      const response = await fetch(`${API_URL}/api/bookings`, {
         method: "POST",
 
         headers: {

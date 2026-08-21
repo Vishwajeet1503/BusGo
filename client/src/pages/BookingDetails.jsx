@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import API_URL from "../config";
 
 const BookingDetails = () => {
   const { id } = useParams();
@@ -29,7 +30,7 @@ const BookingDetails = () => {
         return;
       }
 
-      const response = await fetch(`http://localhost:5000/api/bookings/${id}`, {
+      const response = await fetch(`${API_URL}/api/bookings/${id}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -90,7 +91,7 @@ const BookingDetails = () => {
       }
 
       const response = await fetch(
-        `http://localhost:5000/api/bookings/${id}/cancel`,
+        `${API_URL}/api/bookings/${id}/cancel`,
         {
           method: "PATCH",
           headers: {

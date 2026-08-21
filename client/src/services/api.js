@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000/api";
+const API_URL = `${import.meta.env.VITE_API_URL}/api`;
 
 export const registerUser = async (userData) => {
   const response = await fetch(`${API_URL}/auth/register`, {
@@ -47,9 +47,7 @@ export const searchBuses = async (from, to, date) => {
 };
 
 export const getBusDetails = async (scheduleId, date) => {
-  const response = await fetch(
-    `${API_URL}/buses/${scheduleId}?date=${date}`
-  );
+  const response = await fetch(`${API_URL}/buses/${scheduleId}?date=${date}`);
 
   return response.json();
 };
