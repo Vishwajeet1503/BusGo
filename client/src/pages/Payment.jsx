@@ -81,26 +81,81 @@ const Payment = () => {
   };
 
   const handlePayment = async () => {
-    setProcessing(true);
+    try {
+      setProcessing(true);
 
-    /*
-     * Payment API will be connected in the
-     * next step.
-     *
-     * For now this is only UI behavior.
-     */
+      // Get the JWT token stored after login
+      const token = localStorage.getItem("token");
 
-    setTimeout(() => {
+      if (!token) {
+        setProcessing(false);
+
+        alert("Please login again to continue with the booking.");
+
+        navigate("/login");
+        return;
+      }
+
+      // Prepare passenger data for the backend
+      const bookingPassengers = passengers.map((passenger) => ({
+        seatId: Number(passenger.seatId),
+        name: passenger.name.trim(),
+        age: Number(passenger.age),
+        gender: passenger.gender.toUpperCase(),
+      }));
+
+      // Send booking request to backend
+      const response = await fetch("http://localhost:5000/api/bookings", {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+
+        body: JSON.stringify({
+          scheduleId: Number(scheduleId),
+          travelDate,
+
+          boardingPointId: Number(boardingPointId),
+
+          droppingPointId: Number(droppingPointId),
+
+          passengers: bookingPassengers,
+
+          paymentMethod,
+
+          contactDetails: {
+            whatsapp: contactDetails.whatsapp,
+
+            email: contactDetails.email,
+          },
+        }),
+      });
+
+      const data = await response.json();
+
+      // Handle API error
+      if (!response.ok) {
+        throw new Error(data.message || "Booking could not be completed.");
+      }
+
+      // Booking successfully created
       setProcessing(false);
 
       navigate("/booking-confirmation", {
         state: {
+          booking: data.booking,
           scheduleId,
           travelDate,
           selectedSeats,
           boardingPointId,
           droppingPointId,
+          boardingPoint,
+          droppingPoint,
+          bus,
           passengers,
+          contactDetails,
           paymentMethod,
           baseFare,
           gst,
@@ -108,7 +163,15 @@ const Payment = () => {
           finalAmount,
         },
       });
-    }, 1500);
+    } catch (error) {
+      console.error("Booking failed:", error);
+
+      setProcessing(false);
+
+      alert(
+        error.message || "Something went wrong while creating your booking.",
+      );
+    }
   };
 
   return (

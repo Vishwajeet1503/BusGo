@@ -7,6 +7,7 @@ import SearchResults from "./pages/SearchResults";
 import BusDetails from "./pages/BusDetails";
 import PassengerDetails from "./pages/PassengerDetails";
 import Payment from "./pages/Payment";
+import BookingConfirmation from "./pages/BookingConfirmation";
 
 const App = () => {
   return (
@@ -24,6 +25,8 @@ const App = () => {
       <Route path="/passenger-details" element={<PassengerDetails />} />
 
       <Route path="/payment" element={<Payment />} />
+
+      <Route path="/booking-confirmation" element={<BookingConfirmation />} />
     </Routes>
   );
 };

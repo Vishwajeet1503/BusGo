@@ -1894,3 +1894,214 @@ a {
 .bank-option:hover {
   background: #f9fafb;
 }
+
+/*Booking Confirmation*/
+
+.confirmation-page {
+  min-height: 100vh;
+  background: #f5f7fa;
+  padding: 35px 20px;
+}
+
+.confirmation-container {
+  max-width: 900px;
+  margin: auto;
+}
+
+.confirmation-success {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.success-icon {
+  width: 65px;
+  height: 65px;
+  margin: 0 auto 15px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #16803c;
+  color: white;
+
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.confirmation-success h1 {
+  margin-bottom: 8px;
+}
+
+.confirmation-success p {
+  color: #6b7280;
+}
+
+.booking-reference {
+  margin-top: 18px;
+
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+
+  font-size: 14px;
+}
+
+.confirmation-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+
+  border-radius: 12px;
+
+  padding: 22px;
+
+  margin-bottom: 18px;
+}
+
+.confirmation-card h2 {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.confirmation-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.confirmation-grid div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.confirmation-grid label {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.confirmed-status {
+  color: #16803c;
+}
+
+.journey-confirmation {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+
+  align-items: center;
+  gap: 20px;
+}
+
+.journey-confirmation div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.journey-confirmation label {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.journey-confirmation span {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.confirmation-arrow {
+  font-size: 24px;
+  color: #9ca3af;
+}
+
+.passenger-confirmation {
+  display: flex;
+  flex-direction: column;
+}
+
+.passenger-confirmation-row {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 14px 0;
+
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.passenger-confirmation-row:last-child {
+  border-bottom: none;
+}
+
+.passenger-confirmation-row div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.passenger-confirmation-row span {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.confirmation-note {
+  margin-top: 18px;
+
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.confirmation-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+
+  margin-top: 25px;
+}
+
+.confirmation-button,
+.secondary-confirmation-button {
+  padding: 13px 22px;
+
+  border-radius: 8px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.confirmation-button {
+  border: none;
+  background: #d71920;
+  color: white;
+}
+
+.secondary-confirmation-button {
+  border: 1px solid #d1d5db;
+  background: white;
+  color: #374151;
+}
+
+@media (max-width: 650px) {
+  .confirmation-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .journey-confirmation {
+    grid-template-columns: 1fr;
+  }
+
+  .confirmation-arrow {
+    transform: rotate(90deg);
+    text-align: center;
+  }
+
+  .confirmation-actions {
+    flex-direction: column;
+  }
+
+  .confirmation-button,
+  .secondary-confirmation-button {
+    width: 100%;
+  }
+}
