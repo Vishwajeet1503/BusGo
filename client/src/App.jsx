@@ -9,6 +9,7 @@ import PassengerDetails from "./pages/PassengerDetails";
 import Payment from "./pages/Payment";
 import BookingConfirmation from "./pages/BookingConfirmation";
 import Dashboard from "./pages/Dashboard";
+import BookingDetails from "./pages/BookingDetails";
 
 const App = () => {
   return (
@@ -30,6 +31,8 @@ const App = () => {
       <Route path="/booking-confirmation" element={<BookingConfirmation />} />
 
       <Route path="/dashboard" element={<Dashboard />} />
+
+      <Route path="/booking/:id" element={<BookingDetails />} />
     </Routes>
   );
 };
