@@ -9,6 +9,10 @@ const BookingDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [cancelling, setCancelling] = useState(false);
+  const [cancelError, setCancelError] = useState("");
+
   useEffect(() => {
     fetchBookingDetails();
   }, [id]);
@@ -71,6 +75,56 @@ const BookingDetails = () => {
       hour: "2-digit",
       minute: "2-digit",
     });
+  };
+
+  const handleCancelBooking = async () => {
+    try {
+      setCancelling(true);
+      setCancelError("");
+
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        navigate("/login");
+        return;
+      }
+
+      const response = await fetch(
+        `http://localhost:5000/api/bookings/${id}/cancel`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to cancel booking");
+      }
+
+      // Update booking status immediately
+      setBooking((previousBooking) => ({
+        ...previousBooking,
+        status: "CANCELLED",
+        payment: previousBooking.payment
+          ? {
+              ...previousBooking.payment,
+              status: "REFUNDED",
+            }
+          : null,
+      }));
+
+      setShowCancelModal(false);
+    } catch (error) {
+      console.error("Cancellation error:", error);
+
+      setCancelError(error.message || "Unable to cancel booking");
+    } finally {
+      setCancelling(false);
+    }
   };
 
   if (loading) {
@@ -317,6 +371,18 @@ const BookingDetails = () => {
         {/* Actions */}
 
         <div className="booking-detail-actions">
+          {booking.status === "CONFIRMED" && (
+            <button
+              className="cancel-booking-button"
+              onClick={() => {
+                setCancelError("");
+                setShowCancelModal(true);
+              }}
+            >
+              Cancel Booking
+            </button>
+          )}
+
           <button
             className="back-dashboard-button"
             onClick={() => navigate("/dashboard")}
@@ -325,6 +391,60 @@ const BookingDetails = () => {
           </button>
         </div>
       </div>
+      {showCancelModal && (
+        <div className="cancel-modal-overlay">
+          <div className="cancel-modal">
+            <button
+              className="cancel-modal-close"
+              onClick={() => setShowCancelModal(false)}
+              disabled={cancelling}
+            >
+              ×
+            </button>
+
+            <h2>Cancel Booking?</h2>
+
+            <p>Are you sure you want to cancel this booking?</p>
+
+            <div className="cancel-warning">
+              <strong>Booking Reference</strong>
+
+              <span>{booking.booking_reference}</span>
+
+              <strong>Refund Amount</strong>
+
+              <span>
+                ₹{Number(booking.total_amount).toLocaleString("en-IN")}
+              </span>
+            </div>
+
+            <p className="refund-note">
+              This is a simulated payment system. The payment will be marked as
+              REFUNDED.
+            </p>
+
+            {cancelError && <div className="cancel-error">{cancelError}</div>}
+
+            <div className="cancel-modal-actions">
+              <button
+                className="keep-booking-button"
+                onClick={() => setShowCancelModal(false)}
+                disabled={cancelling}
+              >
+                Keep Booking
+              </button>
+
+              <button
+                className="confirm-cancel-button"
+                onClick={handleCancelBooking}
+                disabled={cancelling}
+              >
+                {cancelling ? "Cancelling..." : "Yes, Cancel Booking"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 };

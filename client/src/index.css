@@ -2619,3 +2619,176 @@ a {
     align-items: flex-start;
   }
 }
+
+/* Cancel button CSS*/
+.booking-detail-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 25px;
+  flex-wrap: wrap;
+}
+
+.cancel-booking-button {
+  border: 1px solid #c62828;
+  background: white;
+  color: #c62828;
+  padding: 12px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.cancel-booking-button:hover {
+  background: #fff1f1;
+}
+
+.cancel-modal-overlay {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.5);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  z-index: 1000;
+}
+
+.cancel-modal {
+  position: relative;
+
+  width: 100%;
+  max-width: 450px;
+
+  background: white;
+
+  border-radius: 14px;
+
+  padding: 28px;
+
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+.cancel-modal h2 {
+  margin: 0 0 10px;
+}
+
+.cancel-modal > p {
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.cancel-modal-close {
+  position: absolute;
+  right: 16px;
+  top: 12px;
+
+  border: none;
+  background: transparent;
+
+  font-size: 28px;
+
+  cursor: pointer;
+
+  color: #6b7280;
+}
+
+.cancel-warning {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 12px;
+
+  padding: 16px;
+
+  margin: 20px 0;
+
+  border-radius: 8px;
+
+  background: #f5f7fa;
+}
+
+.cancel-warning strong {
+  font-size: 13px;
+}
+
+.cancel-warning span {
+  text-align: right;
+  font-size: 13px;
+}
+
+.refund-note {
+  font-size: 13px;
+}
+
+.cancel-error {
+  padding: 10px 12px;
+
+  margin: 15px 0;
+
+  border-radius: 7px;
+
+  background: #feecec;
+
+  color: #c62828;
+
+  font-size: 13px;
+}
+
+.cancel-modal-actions {
+  display: flex;
+  gap: 10px;
+
+  margin-top: 22px;
+}
+
+.keep-booking-button,
+.confirm-cancel-button {
+  flex: 1;
+
+  padding: 12px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  font-weight: 600;
+}
+
+.keep-booking-button {
+  border: 1px solid #d1d5db;
+  background: white;
+  color: #374151;
+}
+
+.confirm-cancel-button {
+  border: none;
+  background: #c62828;
+  color: white;
+}
+
+.keep-booking-button:disabled,
+.confirm-cancel-button:disabled,
+.cancel-booking-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .booking-detail-actions {
+    flex-direction: column;
+  }
+
+  .cancel-booking-button,
+  .back-dashboard-button {
+    width: 100%;
+  }
+
+  .cancel-modal-actions {
+    flex-direction: column;
+  }
+}
