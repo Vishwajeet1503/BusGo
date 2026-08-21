@@ -8,6 +8,7 @@ import BusDetails from "./pages/BusDetails";
 import PassengerDetails from "./pages/PassengerDetails";
 import Payment from "./pages/Payment";
 import BookingConfirmation from "./pages/BookingConfirmation";
+import Dashboard from "./pages/Dashboard";
 
 const App = () => {
   return (
@@ -27,6 +28,8 @@ const App = () => {
       <Route path="/payment" element={<Payment />} />
 
       <Route path="/booking-confirmation" element={<BookingConfirmation />} />
+
+      <Route path="/dashboard" element={<Dashboard />} />
     </Routes>
   );
 };

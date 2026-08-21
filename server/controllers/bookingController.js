@@ -461,6 +461,257 @@ const createBooking = async (req, res) => {
   }
 };
 
+// --------------------------------------------------
+// Get User Bookings.
+// --------------------------------------------------
+
+const getUserBookings = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+
+    const result = await pool.query(
+      `
+      SELECT
+        b.id,
+        b.booking_reference,
+        b.travel_date,
+        b.total_amount,
+        b.status,
+        b.created_at,
+
+        bs.departure_time,
+        bs.arrival_time,
+        bs.duration_minutes,
+
+        bus.id AS bus_id,
+        bus.bus_type,
+
+        r.source,
+        r.destination,
+
+        bo.name AS boarding_point,
+        dp.name AS dropping_point,
+
+        COUNT(bp.id) AS seat_count,
+
+        STRING_AGG(
+          s.seat_number,
+          ', '
+          ORDER BY s.seat_number
+        ) AS seat_numbers
+
+      FROM bookings b
+
+      JOIN bus_schedules bs
+        ON b.schedule_id = bs.id
+
+      JOIN buses bus
+        ON bs.bus_id = bus.id
+
+      JOIN routes r
+        ON bs.route_id = r.id
+
+      LEFT JOIN boarding_points bo
+        ON b.boarding_point_id = bo.id
+
+      LEFT JOIN dropping_points dp
+        ON b.dropping_point_id = dp.id
+
+      LEFT JOIN booking_passengers bp
+        ON b.id = bp.booking_id
+
+      LEFT JOIN seats s
+        ON bp.seat_id = s.id
+
+      WHERE b.user_id = $1
+
+      GROUP BY
+        b.id,
+        b.booking_reference,
+        b.travel_date,
+        b.total_amount,
+        b.status,
+        b.created_at,
+
+        bs.departure_time,
+        bs.arrival_time,
+        bs.duration_minutes,
+
+        bus.id,
+        bus.bus_type,
+
+        r.source,
+        r.destination,
+
+        bo.name,
+        dp.name
+
+      ORDER BY
+        b.travel_date DESC,
+        b.created_at DESC
+      `,
+      [userId],
+    );
+
+    res.json({
+      success: true,
+      bookings: result.rows,
+    });
+  } catch (error) {
+    console.error("Get bookings error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch bookings",
+    });
+  }
+};
+
+const getBookingById = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const bookingId = Number(req.params.id);
+
+    if (!Number.isInteger(bookingId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid booking ID",
+      });
+    }
+
+    const result = await pool.query(
+      `
+      SELECT
+        b.id,
+        b.booking_reference,
+        b.travel_date,
+        b.total_amount,
+        b.status,
+        b.created_at,
+        b.whatsapp_number,
+        b.contact_email,
+
+        bs.departure_time,
+        bs.arrival_time,
+        bs.duration_minutes,
+
+        bus.id AS bus_id,
+        bus.bus_type,
+
+        r.source,
+        r.destination,
+
+        bo.id AS boarding_point_id,
+        bo.name AS boarding_point,
+        bo.address AS boarding_address,
+
+        dp.id AS dropping_point_id,
+        dp.name AS dropping_point,
+        dp.address AS dropping_address
+
+      FROM bookings b
+
+      JOIN bus_schedules bs
+        ON b.schedule_id = bs.id
+
+      JOIN buses bus
+        ON bs.bus_id = bus.id
+
+      JOIN routes r
+        ON bs.route_id = r.id
+
+      LEFT JOIN boarding_points bo
+        ON b.boarding_point_id = bo.id
+
+      LEFT JOIN dropping_points dp
+        ON b.dropping_point_id = dp.id
+
+      WHERE b.id = $1
+        AND b.user_id = $2
+      `,
+      [bookingId, userId],
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Booking not found",
+      });
+    }
+
+    const booking = result.rows[0];
+
+    // Get passengers and seats
+    const passengersResult = await pool.query(
+      `
+      SELECT
+        bp.id,
+        bp.name,
+        bp.age,
+        bp.gender,
+
+        s.id AS seat_id,
+        s.seat_number,
+        s.seat_type,
+        s.price
+
+      FROM booking_passengers bp
+
+      JOIN seats s
+        ON bp.seat_id = s.id
+
+      WHERE bp.booking_id = $1
+
+      ORDER BY s.seat_number
+      `,
+      [bookingId],
+    );
+
+    // Get payment information
+    const paymentResult = await pool.query(
+      `
+      SELECT
+        id,
+        amount,
+        payment_method,
+        status,
+        transaction_reference,
+        created_at
+
+      FROM payments
+
+      WHERE booking_id = $1
+
+      ORDER BY id DESC
+
+      LIMIT 1
+      `,
+      [bookingId],
+    );
+
+    res.json({
+      success: true,
+
+      booking: {
+        ...booking,
+
+        passengers: passengersResult.rows,
+
+        payment: paymentResult.rows[0] || null,
+      },
+    });
+  } catch (error) {
+    console.error("Get booking details error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch booking details",
+    });
+  }
+};
+
 module.exports = {
   createBooking,
+  getUserBookings,
+  getBookingById,
 };
