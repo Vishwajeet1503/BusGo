@@ -1,0 +1,53 @@
+name: Bus Booking CD
+
+on:
+  workflow_run:
+    workflows: ["Bus Booking CI"]
+    types:
+      - completed
+    branches:
+      - main
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            set -e
+
+            cd ~/Bus-Booking-Platform
+
+            echo "Pulling latest code..."
+            git pull origin main
+
+            echo "Installing frontend dependencies..."
+            cd client
+            npm ci
+
+            echo "Building React frontend..."
+            npm run build
+
+            echo "Updating Nginx frontend..."
+            sudo rm -rf /var/www/bus-booking/*
+            sudo cp -r dist/. /var/www/bus-booking/
+
+            echo "Installing backend dependencies..."
+            cd ../server
+            npm ci --omit=dev
+
+            echo "Restarting backend..."
+            pm2 restart bus-booking-api
+
+            echo "Reloading Nginx..."
+            sudo nginx -t
+            sudo systemctl reload nginx
+
+            echo "Deployment completed successfully."
