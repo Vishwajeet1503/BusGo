@@ -23,6 +23,13 @@ jobs:
           script: |
             set -e
 
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+            nvm use 24
+
+            node --version
+            npm --version
+
             cd ~/Bus-Booking-Platform
 
             echo "Pulling latest code..."
