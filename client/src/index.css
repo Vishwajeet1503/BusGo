@@ -2792,3 +2792,1476 @@ a {
     flex-direction: column;
   }
 }
+
+/* =========================================================
+   BUSGO HOME PAGE — MODERN TRAVEL UI
+========================================================= */
+
+.home-page {
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+/* =========================================================
+   BUSGO HEADER
+   Fixed 59px height
+========================================================= */
+
+.header {
+  height: 59px;
+  width: 100%;
+
+  background: #ffffff;
+
+  border-top: 3px solid #4a2b2b;
+  border-bottom: 1px solid #e5e7eb;
+
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.1);
+
+  position: sticky;
+  top: 0;
+
+  z-index: 1000;
+}
+
+/* =========================================================
+   HEADER CONTAINER
+========================================================= */
+
+.header-container {
+  width: 100%;
+  max-width: 1400px;
+  height: 56px;
+
+  margin: 0 auto;
+  padding: 0 24px;
+
+  display: flex;
+  align-items: stretch;
+
+  flex-wrap: nowrap;
+}
+
+/* =========================================================
+   BUSGO LOGO
+========================================================= */
+
+.busgo-logo {
+  width: 145px;
+  min-width: 145px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -1px;
+
+  color: #d71920;
+  text-decoration: none;
+
+  white-space: nowrap;
+}
+
+/* =========================================================
+   PRODUCT NAVIGATION
+========================================================= */
+
+.header-products {
+  display: flex;
+  align-items: stretch;
+
+  height: 100%;
+
+  flex-shrink: 0;
+}
+
+.header-product {
+  width: 125px;
+  min-width: 125px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 2px;
+
+  color: #222222;
+  text-decoration: none;
+
+  position: relative;
+
+  cursor: pointer;
+
+  transition: color 0.2s ease;
+
+  white-space: nowrap;
+}
+
+.header-product svg {
+  color: #111111;
+  flex-shrink: 0;
+}
+
+.header-product span {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.header-product:hover {
+  color: #d71920;
+}
+
+.header-product:hover svg {
+  color: #d71920;
+}
+
+/* =========================================================
+   ACTIVE BUS TICKETS
+========================================================= */
+
+.header-product.active {
+  color: #d71920;
+}
+
+.header-product.active svg {
+  color: #d71920;
+}
+
+.header-product.active::after {
+  content: "";
+
+  position: absolute;
+
+  bottom: 0;
+  left: 10px;
+  right: 10px;
+
+  height: 4px;
+
+  background: #e3343f;
+
+  border-radius: 4px 4px 0 0;
+}
+
+/* =========================================================
+   RIGHT SIDE ACTIONS
+========================================================= */
+
+.header-actions {
+  margin-left: auto;
+
+  display: flex;
+  align-items: center;
+
+  height: 100%;
+
+  gap: 4px;
+
+  flex-shrink: 0;
+}
+
+.header-action {
+  min-width: 90px;
+
+  height: 100%;
+
+  padding: 0 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  color: #222222;
+  background: transparent;
+
+  border: none;
+
+  text-decoration: none;
+
+  font-size: 15px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  transition: background 0.2s ease;
+}
+
+.header-action:hover {
+  background: #f1f1f1;
+  border-radius: 40px;
+}
+
+.header-action svg {
+  color: #111111;
+  flex-shrink: 0;
+}
+
+.header-action-button {
+  font-family: inherit;
+}
+
+/* =========================================================
+   MEDIUM SCREENS
+   Keep everything on ONE ROW
+========================================================= */
+
+@media (max-width: 1100px) {
+  .header-container {
+    padding: 0 16px;
+  }
+
+  .busgo-logo {
+    width: 120px;
+    min-width: 120px;
+    font-size: 26px;
+  }
+
+  .header-product {
+    width: 105px;
+    min-width: 105px;
+  }
+
+  .header-action {
+    min-width: 78px;
+    padding: 0 7px;
+    gap: 6px;
+  }
+}
+
+/* =========================================================
+   SMALL SCREENS
+   STILL ONE ROW — NEVER WRAP
+========================================================= */
+
+@media (max-width: 800px) {
+  .header-container {
+    padding: 0 10px;
+    overflow: hidden;
+  }
+
+  .busgo-logo {
+    width: 95px;
+    min-width: 95px;
+
+    font-size: 24px;
+  }
+
+  .header-product {
+    width: 90px;
+    min-width: 90px;
+  }
+
+  .header-product span {
+    font-size: 12px;
+  }
+
+  .header-product svg {
+    width: 25px;
+    height: 25px;
+  }
+
+  .header-action {
+    min-width: 65px;
+    padding: 0 5px;
+
+    gap: 5px;
+
+    font-size: 12px;
+  }
+
+  .header-action svg {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+/* =========================================================
+   VERY SMALL SCREENS
+   COMPACT BUT STILL ONE ROW
+========================================================= */
+
+@media (max-width: 600px) {
+  .header-container {
+    padding: 0 6px;
+  }
+
+  .busgo-logo {
+    width: 80px;
+    min-width: 80px;
+
+    font-size: 21px;
+  }
+
+  .header-product {
+    width: 78px;
+    min-width: 78px;
+  }
+
+  .header-product span {
+    font-size: 11px;
+  }
+
+  .header-product svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .header-action {
+    min-width: 55px;
+
+    padding: 0 3px;
+
+    gap: 3px;
+
+    font-size: 10px;
+  }
+
+  .header-action svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* =========================================================
+   EXTRA SMALL
+========================================================= */
+
+@media (max-width: 450px) {
+  .busgo-logo {
+    width: 70px;
+    min-width: 70px;
+
+    font-size: 19px;
+  }
+
+  .header-product {
+    width: 70px;
+    min-width: 70px;
+  }
+
+  .header-product span {
+    font-size: 10px;
+  }
+
+  .header-action {
+    min-width: 48px;
+
+    font-size: 9px;
+  }
+
+  .header-action svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.home-hero {
+  min-height: 475px;
+
+  position: relative;
+  overflow: visible;
+
+  background: linear-gradient(
+    110deg,
+    #17253c 0%,
+    #304d69 35%,
+    #829cc8 67%,
+    #c6a9d4 100%
+  );
+}
+
+.home-hero-background {
+  position: absolute;
+  inset: 0;
+
+  overflow: hidden;
+
+  opacity: 0.95;
+}
+
+/* Decorative city */
+
+.hero-city {
+  position: absolute;
+  bottom: 90px;
+
+  background: linear-gradient(
+    to top,
+    rgba(31, 52, 78, 0.9),
+    rgba(70, 91, 125, 0.65)
+  );
+}
+
+.city-one {
+  left: 0;
+
+  width: 30%;
+  height: 220px;
+
+  clip-path: polygon(
+    0 25%,
+    10% 25%,
+    10% 5%,
+    23% 5%,
+    23% 35%,
+    35% 35%,
+    35% 0,
+    48% 0,
+    48% 20%,
+    60% 20%,
+    60% 45%,
+    72% 45%,
+    72% 15%,
+    84% 15%,
+    84% 40%,
+    100% 40%,
+    100% 100%,
+    0 100%
+  );
+}
+
+.city-two {
+  right: 4%;
+  bottom: 105px;
+
+  width: 20%;
+  height: 140px;
+
+  opacity: 0.35;
+
+  clip-path: polygon(
+    0 50%,
+    15% 50%,
+    15% 15%,
+    30% 15%,
+    30% 40%,
+    45% 40%,
+    45% 0,
+    60% 0,
+    60% 55%,
+    78% 55%,
+    78% 25%,
+    90% 25%,
+    90% 50%,
+    100% 50%,
+    100% 100%,
+    0 100%
+  );
+}
+
+/* Hills */
+
+.hero-hill {
+  position: absolute;
+  left: -5%;
+  right: -5%;
+
+  border-radius: 50% 50% 0 0;
+}
+
+.hill-one {
+  height: 150px;
+  bottom: 20px;
+
+  background: #b8d8d4;
+
+  transform: rotate(-3deg);
+}
+
+.hill-two {
+  height: 130px;
+  bottom: -15px;
+
+  background: #8ac7bd;
+
+  transform: rotate(2deg);
+}
+
+/* Hero content */
+
+.home-hero-content {
+  max-width: 1240px;
+
+  margin: 0 auto;
+
+  padding: 82px 24px 0;
+
+  position: relative;
+  z-index: 5;
+}
+
+.hero-text {
+  color: white;
+  max-width: 670px;
+
+  margin-bottom: 55px;
+}
+
+.hero-eyebrow {
+  display: inline-block;
+
+  margin-bottom: 15px;
+
+  font-size: 12px;
+  font-weight: 800;
+
+  letter-spacing: 2px;
+
+  color: #ffd9dc;
+}
+
+.hero-text h1 {
+  margin: 0 0 14px;
+
+  font-size: clamp(42px, 5vw, 62px);
+  line-height: 1.04;
+
+  letter-spacing: -2px;
+
+  color: #ffffff;
+}
+
+.hero-text p {
+  max-width: 560px;
+
+  margin: 0;
+
+  color: #e9eef5;
+
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   SEARCH BOX
+========================================================= */
+
+.bus-search-box {
+  width: 100%;
+
+  height: 100%;
+
+  background: #ffffff;
+
+  border: 1px solid #e4e4e4;
+
+  border-radius: 18px;
+
+  padding: 18px;
+
+  display: grid;
+
+  grid-template-columns:
+    1fr
+    42px
+    1fr
+    1.6fr
+    175px;
+
+  align-items: center;
+
+  gap: 0;
+
+  box-shadow:
+    0 15px 35px rgba(0, 0, 0, 0.14),
+    0 3px 10px rgba(0, 0, 0, 0.06);
+}
+
+.search-field {
+  min-height: 70px;
+
+  padding: 10px 18px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  border-right: 1px solid #dddddd;
+}
+
+.search-field-icon {
+  color: #252525;
+  font-size: 14px;
+}
+
+.search-field-content {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.search-field-content label {
+  font-size: 12px;
+  color: #777777;
+  font-weight: 500;
+}
+
+.search-field-content input {
+  width: 100%;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  color: #171717;
+
+  font-size: 17px;
+  font-weight: 700;
+
+  outline: none;
+}
+
+.search-field-content input::placeholder {
+  color: #999999;
+  font-weight: 500;
+}
+
+.search-field-content input[type="date"] {
+  font-family: inherit;
+  color: #171717;
+}
+
+.location-swap {
+  width: 38px;
+  height: 38px;
+
+  margin: 0 -1px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: #565656;
+
+  color: #ffffff;
+
+  font-size: 19px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  position: relative;
+  z-index: 2;
+}
+
+.location-swap:hover {
+  background: #df3341;
+  transform: scale(1.05);
+}
+
+.date-field {
+  position: relative;
+
+  border-right: none;
+}
+
+.formatted-date {
+  display: none;
+}
+
+.date-shortcuts {
+  display: flex;
+
+  gap: 7px;
+
+  margin-left: auto;
+}
+
+.date-chip {
+  border: none;
+
+  background: #ffe0e0;
+
+  color: #333333;
+
+  padding: 10px 13px;
+
+  border-radius: 22px;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+}
+
+.date-chip:hover,
+.date-chip.active {
+  background: #ffd0d0;
+}
+
+.main-search-button {
+  height: 58px;
+
+  margin-left: 12px;
+
+  border: none;
+
+  border-radius: 30px;
+
+  background: #df3341;
+
+  color: white;
+
+  font-size: 16px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  box-shadow: 0 6px 15px rgba(223, 51, 65, 0.25);
+
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease;
+}
+
+.main-search-button span {
+  font-size: 23px;
+
+  vertical-align: -2px;
+
+  margin-right: 5px;
+}
+
+.main-search-button:hover {
+  background: #c92837;
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   OFFERS
+========================================================= */
+
+.offers-section {
+  padding: 95px 24px 70px;
+
+  background: #ffffff;
+}
+
+.offers-container {
+  max-width: 1240px;
+
+  margin: 0 auto;
+}
+
+.section-header {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: flex-end;
+
+  margin-bottom: 25px;
+}
+
+.section-header h2 {
+  margin: 0 0 5px;
+
+  font-size: 28px;
+  color: #161616;
+}
+
+.section-header p {
+  margin: 0;
+
+  color: #777777;
+
+  font-size: 14px;
+}
+
+.view-more-button {
+  border: none;
+
+  background: transparent;
+
+  color: #4b5be8;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.offer-tabs {
+  display: flex;
+
+  gap: 12px;
+
+  margin-bottom: 20px;
+}
+
+.offer-tab {
+  padding: 10px 18px;
+
+  border: 1px solid #c9c9c9;
+
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  color: #333333;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.offer-tab:hover,
+.offer-tab.active {
+  border-color: #ffd0d0;
+
+  background: #ffe0e0;
+
+  color: #222222;
+}
+
+.offers-grid {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 15px;
+
+  overflow: hidden;
+}
+
+.offer-card {
+  min-height: 175px;
+
+  position: relative;
+  overflow: hidden;
+
+  padding: 20px;
+
+  border-radius: 16px;
+
+  color: #222222;
+
+  background: #ffe2e2;
+}
+
+.offer-card::after {
+  content: "";
+
+  position: absolute;
+
+  width: 150px;
+  height: 150px;
+
+  right: -50px;
+  bottom: -70px;
+
+  border-radius: 50%;
+
+  border: 28px solid rgba(255, 255, 255, 0.3);
+}
+
+.offer-card-one {
+  background: linear-gradient(135deg, #ffe4e4, #ffd1d1);
+}
+
+.offer-card-two {
+  background: linear-gradient(135deg, #ffe8e2, #ffd5cc);
+}
+
+.offer-card-three {
+  background: linear-gradient(135deg, #fff0f2, #ffe0e6);
+}
+
+.offer-card-four {
+  background: linear-gradient(135deg, #ffe3e3, #ffcfcf);
+}
+
+.offer-badge {
+  display: inline-block;
+
+  margin-bottom: 17px;
+
+  padding: 5px 10px;
+
+  border-radius: 7px;
+
+  background: #5c5151;
+
+  color: #ffffff;
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.offer-card h3 {
+  position: relative;
+  z-index: 2;
+
+  margin: 0 0 6px;
+
+  font-size: 18px;
+
+  line-height: 1.3;
+}
+
+.offer-card p {
+  position: relative;
+  z-index: 2;
+
+  margin: 0 0 12px;
+
+  max-width: 200px;
+
+  color: #454545;
+
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.offer-card small {
+  position: relative;
+  z-index: 2;
+
+  color: #555555;
+
+  font-size: 11px;
+}
+
+.offer-decoration {
+  position: absolute;
+
+  right: 20px;
+  bottom: 10px;
+
+  color: rgba(205, 45, 59, 0.2);
+
+  font-size: 75px;
+  font-weight: 900;
+
+  transform: rotate(-10deg);
+}
+
+/* =========================================================
+   WHY BUSGO
+========================================================= */
+
+.why-section {
+  padding: 65px 24px 90px;
+
+  background: #ffffff;
+}
+
+.why-container {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.why-heading {
+  text-align: center;
+
+  margin-bottom: 40px;
+}
+
+.why-heading > span {
+  color: #df3341;
+
+  font-size: 15px;
+  font-weight: 800;
+
+  letter-spacing: 2px;
+}
+
+.why-heading h2 {
+  max-width: 600px;
+
+  margin: 8px auto 0;
+
+  font-size: 30px;
+
+  line-height: 1.2;
+}
+
+.why-grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 20px;
+}
+
+.why-card {
+  padding: 28px;
+
+  background: #ffffff;
+
+  border: 1.2px solid #df3341;
+
+  border-radius: 14px;
+
+  text-align: center;
+}
+
+.why-icon {
+  width: 48px;
+  height: 48px;
+
+  margin: 0 auto 17px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background: #ffe2e2;
+
+  color: #df3341;
+
+  font-size: 23px;
+  font-weight: 800;
+}
+
+.why-card h3 {
+  margin-bottom: 8px;
+
+  font-size: 17px;
+}
+
+.why-card p {
+  color: #707070;
+
+  font-size: 14px;
+
+  line-height: 1.6;
+}
+
+/* =========================================================
+   HOME RESPONSIVE
+========================================================= */
+
+@media (max-width: 1050px) {
+  .header-inner {
+    padding: 0 18px;
+  }
+
+  .main-navigation {
+    display: none;
+  }
+
+  .header-actions {
+    min-width: auto;
+  }
+
+  .bus-search-box {
+    grid-template-columns:
+      1fr
+      40px
+      1fr
+      1.4fr
+      155px;
+  }
+
+  .date-shortcuts {
+    display: none;
+  }
+
+  .offers-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 800px) {
+  .main-header {
+    height: auto;
+  }
+
+  .header-inner {
+    min-height: 70px;
+
+    flex-wrap: wrap;
+
+    padding: 12px 18px;
+  }
+
+  .header-actions {
+    gap: 12px;
+  }
+
+  .header-action:first-child {
+    display: none;
+  }
+
+  .home-hero {
+    min-height: 600px;
+  }
+
+  .home-hero-content {
+    padding-top: 60px;
+  }
+
+  .hero-text {
+    margin-bottom: 35px;
+  }
+
+  .bus-search-box {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 0;
+
+    padding: 14px;
+  }
+
+  .search-field {
+    border-right: none;
+
+    border-bottom: 1px solid #eeeeee;
+
+    min-height: 70px;
+  }
+
+  .location-swap {
+    align-self: center;
+
+    margin: -19px 0;
+  }
+
+  .date-field {
+    border-bottom: none;
+  }
+
+  .date-shortcuts {
+    display: flex;
+  }
+
+  .main-search-button {
+    width: 100%;
+
+    margin: 5px 0 0;
+  }
+
+  .why-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .brand-name {
+    font-size: 22px;
+  }
+
+  .brand-mark {
+    width: 36px;
+    height: 27px;
+  }
+
+  .header-actions {
+    gap: 8px;
+  }
+
+  .header-action {
+    font-size: 12px;
+  }
+
+  .account-action {
+    font-size: 12px;
+  }
+
+  .home-hero {
+    min-height: 650px;
+  }
+
+  .home-hero-content {
+    padding: 45px 15px 0;
+  }
+
+  .hero-text h1 {
+    font-size: 39px;
+    letter-spacing: -1.5px;
+  }
+
+  .hero-text p {
+    font-size: 15px;
+  }
+
+  .offers-section {
+    padding: 70px 15px 50px;
+  }
+
+  .section-header {
+    align-items: flex-start;
+  }
+
+  .section-header h2 {
+    font-size: 25px;
+  }
+
+  .offers-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .offer-card {
+    min-height: 160px;
+  }
+
+  .offer-tabs {
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .offer-tab {
+    flex-shrink: 0;
+  }
+
+  .why-section {
+    padding: 55px 15px 70px;
+  }
+
+  .why-heading h2 {
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 420px) {
+  .header-inner {
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .brand-logo {
+    min-width: auto;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero-text h1 {
+    font-size: 34px;
+  }
+
+  .date-shortcuts {
+    gap: 4px;
+  }
+
+  .date-chip {
+    padding: 8px 9px;
+  }
+}
+
+/*===========Header Icons========*/
+
+.nav-link,
+.nav-button,
+.welcome {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-link {
+  font-weight: 600;
+  color: #374151;
+}
+
+.nav-link:hover {
+  color: #d71920;
+}
+
+.nav-button {
+  border: none;
+  background: transparent;
+  font-size: 15px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #374151;
+}
+
+.nav-button:hover {
+  color: #d71920;
+}
+
+/*========Search Icons=========*/
+.search-button,
+.swap-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-button {
+  gap: 8px;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+  width: 100%;
+  background: #f1f2f7;
+  color: #111827;
+  margin-top: 60px;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+
+  padding: 50px 24px 70px;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 70px;
+}
+
+/* Footer Columns */
+.footer-column h3 {
+  margin-bottom: 20px;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.footer-column li {
+  color: #3f4fff;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: default;
+}
+
+.footer-column a:hover {
+  color: #d71920;
+}
+
+/* =========================================================
+   FOOTER BOTTOM DESCRIPTION
+========================================================= */
+
+.footer-bottom {
+  max-width: 1200px;
+
+  margin: 0 auto;
+
+  padding: 0 24px 30px;
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 30px;
+}
+
+.footer-brand {
+  min-width: 90px;
+
+  display: flex;
+  align-items: center;
+}
+
+.footer-brand span {
+  color: #d71920;
+
+  font-size: 25px;
+  font-weight: 800;
+
+  letter-spacing: -1px;
+}
+
+.footer-bottom p {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   COPYRIGHT
+========================================================= */
+
+.footer-copyright {
+  border-top: 1px solid #dfe1e7;
+
+  padding: 18px 24px;
+
+  text-align: center;
+
+  color: #6b7280;
+
+  font-size: 13px;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+  .footer-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 45px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+
+    padding: 40px 20px 45px;
+
+    gap: 35px;
+  }
+
+  .footer-column h3 {
+    margin-bottom: 20px;
+  }
+
+  .footer-column a {
+    margin-bottom: 16px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+
+    padding: 0 20px 25px;
+
+    gap: 12px;
+  }
+
+  .footer-bottom p {
+    font-size: 14px;
+  }
+}

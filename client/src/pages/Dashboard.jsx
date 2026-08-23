@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API_URL from "../config";
+import Header from "../components/Header";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -41,7 +42,6 @@ const Dashboard = () => {
       setBookings(data.bookings || []);
     } catch (error) {
       console.error("Dashboard booking error:", error);
-
       setError(error.message || "Unable to load your bookings");
     } finally {
       setLoading(false);
@@ -164,91 +164,109 @@ const Dashboard = () => {
     </div>
   );
 
+  /*
+   * Header is rendered on every Dashboard state.
+   * This keeps the navigation visible while loading,
+   * when an error occurs, and when bookings are displayed.
+   */
+
   if (loading) {
     return (
-      <main className="dashboard-page">
-        <div className="dashboard-container">
-          <h1>My Bookings</h1>
+      <>
+        <Header />
 
-          <div className="dashboard-message">Loading your bookings...</div>
-        </div>
-      </main>
+        <main className="dashboard-page">
+          <div className="dashboard-container">
+            <h1>My Bookings</h1>
+
+            <div className="dashboard-message">Loading your bookings...</div>
+          </div>
+        </main>
+      </>
     );
   }
 
   if (error) {
     return (
-      <main className="dashboard-page">
-        <div className="dashboard-container">
-          <h1>My Bookings</h1>
+      <>
+        <Header />
 
-          <div className="dashboard-error">
-            <p>{error}</p>
+        <main className="dashboard-page">
+          <div className="dashboard-container">
+            <h1>My Bookings</h1>
 
-            <button onClick={fetchBookings}>Try Again</button>
+            <div className="dashboard-error">
+              <p>{error}</p>
+
+              <button onClick={fetchBookings}>Try Again</button>
+            </div>
           </div>
-        </div>
-      </main>
+        </main>
+      </>
     );
   }
 
   return (
-    <main className="dashboard-page">
-      <div className="dashboard-container">
-        <div className="dashboard-header">
-          <div>
-            <h1>My Bookings</h1>
+    <>
+      <Header />
 
-            <p>Manage your bus bookings and travel information.</p>
+      <main className="dashboard-page">
+        <div className="dashboard-container">
+          <div className="dashboard-header">
+            <div>
+              <h1>My Bookings</h1>
+
+              <p>Manage your bus bookings and travel information.</p>
+            </div>
+
+            <button
+              className="dashboard-home-button"
+              onClick={() => navigate("/")}
+            >
+              Search Buses
+            </button>
           </div>
 
-          <button
-            className="dashboard-home-button"
-            onClick={() => navigate("/")}
-          >
-            Search Buses
-          </button>
+          {/* Upcoming */}
+
+          <section className="booking-section">
+            <h2>Upcoming Bookings</h2>
+
+            {upcomingBookings.length === 0 ? (
+              <div className="dashboard-empty">
+                <h3>No upcoming bookings</h3>
+
+                <p>You don't have any upcoming trips.</p>
+
+                <button onClick={() => navigate("/")}>Search Buses</button>
+              </div>
+            ) : (
+              <div className="booking-list">
+                {upcomingBookings.map(renderBookingCard)}
+              </div>
+            )}
+          </section>
+
+          {/* Previous */}
+
+          <section className="booking-section">
+            <h2>Previous Bookings</h2>
+
+            {previousBookings.length === 0 ? (
+              <div className="dashboard-empty">
+                <h3>No previous bookings</h3>
+
+                <p>Your completed or cancelled trips will appear here.</p>
+              </div>
+            ) : (
+              <div className="booking-list">
+                {previousBookings.map(renderBookingCard)}
+              </div>
+            )}
+          </section>
         </div>
-
-        {/* Upcoming */}
-
-        <section className="booking-section">
-          <h2>Upcoming Bookings</h2>
-
-          {upcomingBookings.length === 0 ? (
-            <div className="dashboard-empty">
-              <h3>No upcoming bookings</h3>
-
-              <p>You don't have any upcoming trips.</p>
-
-              <button onClick={() => navigate("/")}>Search Buses</button>
-            </div>
-          ) : (
-            <div className="booking-list">
-              {upcomingBookings.map(renderBookingCard)}
-            </div>
-          )}
-        </section>
-
-        {/* Previous */}
-
-        <section className="booking-section">
-          <h2>Previous Bookings</h2>
-
-          {previousBookings.length === 0 ? (
-            <div className="dashboard-empty">
-              <h3>No previous bookings</h3>
-
-              <p>Your completed or cancelled trips will appear here.</p>
-            </div>
-          ) : (
-            <div className="booking-list">
-              {previousBookings.map(renderBookingCard)}
-            </div>
-          )}
-        </section>
-      </div>
-    </main>
+      </main>
+    </>
   );
 };
 
