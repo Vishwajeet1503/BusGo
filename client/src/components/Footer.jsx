@@ -37,8 +37,8 @@ const Footer = () => {
             <li>Amravati</li>
             <li>Nashik</li>
             <li>Kolhapur</li>
-            <li>Warud</li>
             <li>Hyderabad</li>
+            <li>Warud</li>
           </ul>
         </div>
 
