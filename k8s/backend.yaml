@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: busgo-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: busgo-backend
+  template:
+    metadata:
+      labels:
+        app: busgo-backend
+    spec:
+      containers:
+        - name: backend
+          image: 633398616799.dkr.ecr.ap-south-1.amazonaws.com/busgo-backend:latest
+          ports:
+            - containerPort: 5000
+          env:
+            - name: PORT
+              value: "5000"
+          envFrom:
+            - secretRef:
+                name: busgo-backend-secret
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 5000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 5000
+            initialDelaySeconds: 20
+            periodSeconds: 20
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: busgo-backend
+spec:
+  type: LoadBalancer
+  selector:
+    app: busgo-backend
+  ports:
+    - port: 5000
+      targetPort: 5000

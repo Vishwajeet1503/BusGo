@@ -1,4 +1,4 @@
-name: Bus Booking CD
+name: BusGo EKS CD
 
 on:
   workflow_run:
@@ -8,53 +8,82 @@ on:
     branches:
       - main
 
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: ap-south-1
+  AWS_ACCOUNT_ID: "633398616799"
+  ECR_REGISTRY: "633398616799.dkr.ecr.ap-south-1.amazonaws.com"
+  ECR_BACKEND: "busgo-backend"
+  ECR_FRONTEND: "busgo-frontend"
+  EKS_CLUSTER: "busgo-eks"
+
 jobs:
   deploy:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy to EC2
-        uses: appleboy/ssh-action@v1.2.2
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            set -e
+          ref: ${{ github.event.workflow_run.head_sha }}
 
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-            nvm use 24
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          role-to-assume: arn:aws:iam::633398616799:role/GitHubActions-BusGo-EKS
+          aws-region: ${{ env.AWS_REGION }}
 
-            node --version
-            npm --version
+      - name: Verify AWS identity
+        run: aws sts get-caller-identity
 
-            cd ~/Bus-Booking-Platform
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
 
-            echo "Pulling latest code..."
-            git pull origin main
+      - name: Build and push backend image
+        run: |
+          docker build \
+            -t $ECR_REGISTRY/$ECR_BACKEND:${{ github.event.workflow_run.head_sha }} \
+            ./server
 
-            echo "Installing frontend dependencies..."
-            cd client
-            npm ci
+          docker push \
+            $ECR_REGISTRY/$ECR_BACKEND:${{ github.event.workflow_run.head_sha }}
 
-            echo "Building React frontend..."
-            npm run build
+      - name: Build and push frontend image
+        run: |
+          docker build \
+            --build-arg VITE_API_URL="http://aa64b3e7b078042eaaaf05c0bd78d2de-1712105078.ap-south-1.elb.amazonaws.com:5000" \
+            -t $ECR_REGISTRY/$ECR_FRONTEND:${{ github.event.workflow_run.head_sha }} \
+            ./client
 
-            echo "Updating Nginx frontend..."
-            sudo rm -rf /var/www/bus-booking/*
-            sudo cp -r dist/. /var/www/bus-booking/
+          docker push \
+            $ECR_REGISTRY/$ECR_FRONTEND:${{ github.event.workflow_run.head_sha }}
 
-            echo "Installing backend dependencies..."
-            cd ../server
-            npm ci --omit=dev
+      - name: Configure kubectl
+        run: |
+          aws eks update-kubeconfig \
+            --region $AWS_REGION \
+            --name $EKS_CLUSTER
 
-            echo "Restarting backend..."
-            pm2 restart bus-booking-api
+      - name: Deploy backend to EKS
+        run: |
+          kubectl set image deployment/busgo-backend \
+            backend=$ECR_REGISTRY/$ECR_BACKEND:${{ github.event.workflow_run.head_sha }}
 
-            echo "Reloading Nginx..."
-            sudo nginx -t
-            sudo systemctl reload nginx
+          kubectl rollout status deployment/busgo-backend --timeout=180s
 
-            echo "Deployment completed successfully."
+      - name: Deploy frontend to EKS
+        run: |
+          kubectl set image deployment/busgo-frontend \
+            frontend=$ECR_REGISTRY/$ECR_FRONTEND:${{ github.event.workflow_run.head_sha }}
+
+          kubectl rollout status deployment/busgo-frontend --timeout=180s
+
+      - name: Verify deployment
+        run: |
+          kubectl get pods
+          kubectl get svc busgo-backend
+          kubectl get svc busgo-frontend

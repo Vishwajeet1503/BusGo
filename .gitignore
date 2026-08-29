@@ -7,3 +7,10 @@ build/
 coverage/
 *.log
 .DS_Store
+
+# Database backups
+*.dump
+
+# Local AWS IAM policy files
+github-actions-trust-policy.json
+github-actions-permissions.json

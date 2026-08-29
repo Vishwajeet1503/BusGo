@@ -30,13 +30,15 @@ const Footer = () => {
         {/* Global Sites */}
         <div className="footer-column">
           <h3>Indian Sites</h3>
-
           <ul>
             <li>Mumbai</li>
             <li>Pune</li>
             <li>Nagpur</li>
             <li>Amravati</li>
+            <li>Nashik</li>
+            <li>Kolhapur</li>
             <li>Warud</li>
+            <li>Hyderabad</li>
           </ul>
         </div>
 

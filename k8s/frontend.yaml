@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: busgo-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: busgo-frontend
+  template:
+    metadata:
+      labels:
+        app: busgo-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: 633398616799.dkr.ecr.ap-south-1.amazonaws.com/busgo-frontend:latest
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "250m"
+              memory: "128Mi"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: busgo-frontend
+spec:
+  type: LoadBalancer
+  selector:
+    app: busgo-frontend
+  ports:
+    - port: 80
+      targetPort: 80
