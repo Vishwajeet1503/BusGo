@@ -421,7 +421,7 @@ The upgraded application runs on **Amazon EKS**, AWS's managed Kubernetes servic
                                │
                                ▼
                     ┌────────────────────────┐
-                    │   Amazon RDS            │
+                    │   Amazon RDS           │
                     │   PostgreSQL            │
                     └────────────────────────┘
 ```
