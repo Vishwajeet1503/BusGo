@@ -1,0 +1,74 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: BusGo infrastructure - ECR, RDS and networking
+
+Resources:
+
+  BackendRepository:
+    Type: AWS::ECR::Repository
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      RepositoryName: busgo-backend
+      ImageScanningConfiguration:
+        ScanOnPush: false
+      ImageTagMutability: MUTABLE
+
+  FrontendRepository:
+    Type: AWS::ECR::Repository
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      RepositoryName: busgo-frontend
+      ImageScanningConfiguration:
+        ScanOnPush: false
+      ImageTagMutability: MUTABLE
+
+  BusGoDatabase:
+    Type: AWS::RDS::DBInstance
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      DBInstanceIdentifier: busgo-postgres
+      DBInstanceClass: db.t3.micro
+      Engine: postgres
+      EngineVersion: '17.9'
+      DBName: bus_booking_db
+      MasterUsername: postgres
+      AllocatedStorage: 20
+      StorageType: gp3
+      MultiAZ: false
+      PubliclyAccessible: false
+      DBSubnetGroupName: busgo-rds-subnet-group
+      VPCSecurityGroups:
+        - sg-0bec079ddbf5c733d
+      DeletionProtection: false
+      AutoMinorVersionUpgrade: true
+
+  RDSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      GroupName: busgo-rds-sg
+      GroupDescription: Security group for BusGo RDS PostgreSQL
+      VpcId: vpc-0479dd4e9b9546907
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 5432
+          ToPort: 5432
+          SourceSecurityGroupId: sg-0d9b6c168b713f60d
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+
+  RDSSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      DBSubnetGroupName: busgo-rds-subnet-group
+      DBSubnetGroupDescription: Private subnet group for BusGo RDS
+      SubnetIds:
+        - subnet-0f72e30d51df26636
+        - subnet-0898722228c8d1a7a
