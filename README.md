@@ -1,21 +1,24 @@
 # 🚌 BusGo — Bus Booking Platform
 
-A **full-stack, production-deployed bus booking platform** that simulates a real-world online bus reservation system.
+A **full-stack bus booking platform** designed to simulate a real-world online bus reservation system.
 
-The application provides an end-to-end booking experience including **user authentication, bus search, schedule selection, seat selection, passenger management, booking, payment simulation, booking history, and cancellation**.
+BusGo provides an end-to-end booking experience including **user authentication, bus search, schedule selection, seat selection, passenger management, booking, payment simulation, booking history, and cancellation**.
 
-The project was initially deployed on **AWS EC2** using **Nginx** and **PM2** with **GitHub Actions CI/CD**.
+The application was initially deployed on **AWS EC2** using **Nginx, PM2, Node.js, PostgreSQL, and GitHub Actions**.
 
-As an infrastructure upgrade, the application was later **containerized with Docker and migrated to Amazon EKS (Elastic Kubernetes Service)**. The upgraded architecture uses **Amazon ECR, Kubernetes Deployments and Services, AWS Load Balancers, Amazon RDS PostgreSQL, and GitHub Actions CI/CD with AWS OIDC authentication**.
+As an infrastructure upgrade, the application was **containerized with Docker and migrated to Amazon EKS (Elastic Kubernetes Service)**. The upgraded architecture uses **Amazon ECR, Kubernetes Deployments and Services, AWS Load Balancers, Amazon RDS PostgreSQL, Kubernetes Secrets, GitHub Actions CI/CD, AWS IAM OIDC, and AWS CloudFormation**.
 
 ---
 
-## 🌐 Application Deployment
+## 🌐 Deployment Overview
 
-### Original Deployment
+BusGo has gone through two major deployment architectures.
 
-The application was initially deployed on **AWS EC2** using:
+### Original EC2 Deployment
 
+The initial application was deployed directly on AWS EC2 using:
+
+- AWS EC2
 - Nginx
 - Node.js
 - PM2
@@ -24,18 +27,20 @@ The application was initially deployed on **AWS EC2** using:
 
 ### EKS Upgrade
 
-The application was upgraded to a containerized Kubernetes deployment using:
+The application was later upgraded to a containerized Kubernetes architecture using:
 
 - Docker
 - Amazon ECR
 - Amazon EKS
 - Kubernetes
-- AWS Load Balancer
+- AWS Load Balancers
 - Amazon RDS PostgreSQL
+- Kubernetes Secrets
 - GitHub Actions
 - AWS IAM OIDC
+- AWS CloudFormation
 
-> The EC2 deployment is retained as the original deployment architecture, while EKS represents the upgraded deployment architecture.
+> The original EC2 deployment is retained as the initial deployment architecture, while Amazon EKS represents the upgraded production-style architecture.
 
 ---
 
@@ -45,24 +50,24 @@ BusGo is designed to provide a complete online bus reservation workflow from **b
 
 ### Users can:
 
-* Create an account
-* Log in using JWT authentication
-* Search buses between cities
-* Select travel dates
-* View available schedules
-* View bus details
-* Select available seats
-* Enter passenger information
-* Select boarding and dropping points
-* Review fare breakdown
-* Select a payment method
-* Create a booking
-* Receive a booking reference
-* View booking history
-* View booking details
-* Cancel bookings
+- Create an account
+- Log in using JWT authentication
+- Search buses between cities
+- Select travel dates
+- View available schedules
+- View bus details
+- Select available seats
+- Enter passenger information
+- Select boarding and dropping points
+- Review fare breakdown
+- Select a payment method
+- Create a booking
+- Receive a booking reference
+- View booking history
+- View booking details
+- Cancel bookings
 
-The backend uses **PostgreSQL** for persistent data storage and handles booking, payment, passenger, and cancellation workflows.
+The backend uses **PostgreSQL** for persistent data storage and handles booking, passenger, payment, and cancellation workflows.
 
 ---
 
@@ -70,7 +75,7 @@ The backend uses **PostgreSQL** for persistent data storage and handles booking,
 
 | Category | Technologies |
 | -------- | ------------ |
-| **Frontend** | React.js |
+| **Frontend** | React.js, JavaScript, HTML, CSS |
 | **Backend** | Node.js, Express.js |
 | **Database** | PostgreSQL |
 | **Authentication** | JWT |
@@ -78,51 +83,50 @@ The backend uses **PostgreSQL** for persistent data storage and handles booking,
 | **Process Management** | PM2 |
 | **Containerization** | Docker |
 | **Container Registry** | Amazon ECR |
-| **Original Cloud Deployment** | AWS EC2 |
-| **Upgraded Cloud Deployment** | Amazon EKS |
+| **Original Deployment** | AWS EC2 |
+| **Container Orchestration** | Amazon EKS, Kubernetes |
 | **Database Hosting** | Amazon RDS PostgreSQL |
 | **Load Balancing** | AWS Load Balancer |
-| **Orchestration** | Kubernetes |
+| **Secrets Management** | Kubernetes Secrets |
 | **CI/CD** | GitHub Actions |
 | **AWS Authentication** | IAM OIDC |
+| **Infrastructure as Code** | AWS CloudFormation |
 | **Version Control** | Git, GitHub |
 
 ---
 
 # ✨ Key Features
 
-## 🔐 Authentication & Authorization
+## 🔐 Authentication
 
-The application provides user authentication and protected application workflows.
-
-* User registration
-* User login
-* JWT-based authentication
-* Protected API routes
-* Token-based authorization
-* User profile
+- User registration
+- User login
+- JWT-based authentication
+- Protected API routes
+- Token-based authorization
+- User profile
 
 ---
 
 ## 🔎 Bus Search
 
-Users can search available buses based on:
+Users can search for available buses based on:
 
-* Source
-* Destination
-* Travel date
+- Source
+- Destination
+- Travel date
 
-The search results provide important journey information including:
+Search results provide journey information such as:
 
-* Bus operator
-* Operator rating
-* Bus number
-* Bus type
-* Total seats
-* Departure time
-* Arrival time
-* Journey duration
-* Base fare
+- Bus operator
+- Operator rating
+- Bus number
+- Bus type
+- Total seats
+- Departure time
+- Arrival time
+- Journey duration
+- Base fare
 
 ### Example
 
@@ -148,67 +152,73 @@ National Travels
 
 ## 🚌 Bus & Schedule Selection
 
-Users can view available buses and select a suitable travel schedule.
+Users can view and select available buses and travel schedules.
 
-* Bus details
-* Bus type
-* Departure and arrival times
-* Journey duration
-* Fare information
-* Schedule selection
+Features include:
+
+- Bus details
+- Bus type
+- Departure and arrival times
+- Journey duration
+- Fare information
+- Schedule selection
 
 ---
 
 ## 💺 Seat Selection
 
-The platform provides an interactive seat-selection workflow.
+The application provides an interactive seat-selection workflow.
 
-* View available seats
-* Select seats
-* Manage selected seats
-* Continue with selected seats during booking
+Users can:
+
+- View available seats
+- Select seats
+- Manage selected seats
+- Continue with selected seats during booking
 
 ---
 
 ## 👤 Passenger Management
 
-Passenger information is collected as part of the booking workflow.
+Passenger information is collected during the booking process.
 
-* Passenger details
-* Boarding point selection
-* Dropping point selection
-* Booking information validation
+- Passenger details
+- Boarding point selection
+- Dropping point selection
+- Booking information validation
 
 ---
 
 ## 💳 Payment & Booking
 
-The application includes a simulated payment workflow as part of the booking process.
+BusGo includes a simulated payment workflow.
 
-* Fare breakdown
-* Payment method selection
-* Payment simulation
-* Booking creation
-* Booking reference generation
-* Booking confirmation
+- Fare breakdown
+- Payment method selection
+- Payment simulation
+- Booking creation
+- Booking reference generation
+- Booking confirmation
+
+> Payment processing is simulated and does not use a real payment gateway.
 
 ---
 
 ## 📋 Booking Management
 
-Users can manage their existing bookings through the application.
+Users can manage their bookings through the application.
 
-* Booking history
-* Individual booking details
-* Booking reference
-* Passenger information
-* Cancellation workflow
+- Booking history
+- Booking details
+- Booking reference
+- Passenger information
+- Booking cancellation
 
 ---
 
 # 🏗️ Application Architecture
 
-The application follows a full-stack architecture with a React frontend, Node.js/Express backend, and PostgreSQL database.
+The application follows a standard full-stack architecture.
 
 ```text
                          ┌──────────────────┐
@@ -221,7 +231,7 @@ The application follows a full-stack architecture with a React frontend, Node.js
                        │     Frontend        │
                        └──────────┬──────────┘
                                   │
-                             REST APIs
+                              REST APIs
                                   │
                                   ▼
                        ┌─────────────────────┐
@@ -240,16 +250,16 @@ The application follows a full-stack architecture with a React frontend, Node.js
 
 # ☁️ Original AWS EC2 Deployment
 
-Before the Kubernetes upgrade, BusGo was deployed directly on **AWS EC2**.
+Before the Kubernetes migration, BusGo was deployed directly on AWS EC2.
 
-The EC2-based architecture used:
+The EC2 architecture used:
 
-- **AWS EC2** for application hosting
-- **Nginx** as the web server and reverse proxy
-- **Node.js** for the backend
-- **PM2** for backend process management
-- **PostgreSQL** for application data
-- **GitHub Actions** for deployment automation
+- **AWS EC2** — Application hosting
+- **Nginx** — Web server and reverse proxy
+- **Node.js** — Backend runtime
+- **PM2** — Node.js process management
+- **PostgreSQL** — Application database
+- **GitHub Actions** — Deployment automation
 
 ### EC2 Architecture
 
@@ -265,7 +275,7 @@ The EC2-based architecture used:
                             ▼
                   ┌───────────────────┐
                   │       Nginx       │
-                  │    Web Server     │
+                  │  Web Server/Proxy │
                   └─────────┬─────────┘
                             │
                             ▼
@@ -281,66 +291,64 @@ The EC2-based architecture used:
                   └───────────────────┘
 ```
 
-### EC2 Deployment Components
-
-* **AWS EC2** — Application hosting
-* **Nginx** — Web server and reverse proxy
-* **Node.js** — Backend runtime
-* **PM2** — Node.js process management
-* **PostgreSQL** — Application database
-* **GitHub Actions** — CI/CD automation
-
 ---
 
-# 🚀 EKS Upgrade
+# 🚀 EKS Infrastructure Upgrade
 
-To improve the deployment architecture, BusGo was upgraded from a traditional EC2-based deployment to a **containerized Kubernetes deployment using Amazon EKS**.
+The major infrastructure upgrade moved BusGo from a traditional EC2 deployment to a **containerized Kubernetes deployment using Amazon EKS**.
 
-The upgrade introduced:
+### Main improvements
 
-* Docker containerization
-* Amazon ECR
-* Amazon EKS
-* Kubernetes Deployments
-* Kubernetes Services
-* Multiple application replicas
-* AWS Load Balancers
-* Amazon RDS PostgreSQL
-* Kubernetes Secrets
-* GitHub Actions CI/CD
-* AWS IAM OIDC authentication
+- Docker-based application packaging
+- Amazon ECR image storage
+- Amazon EKS container orchestration
+- Kubernetes Deployments
+- Kubernetes Services
+- Multiple application replicas
+- Kubernetes self-healing
+- AWS Load Balancers
+- PostgreSQL hosted on Amazon RDS
+- Kubernetes Secrets
+- GitHub Actions CI/CD
+- GitHub OIDC authentication
+- CloudFormation infrastructure management
 
-The application code and booking functionality remained the same. The major change was the **deployment and infrastructure layer**.
+The application functionality remained largely unchanged. The primary focus of the upgrade was the **deployment, scalability, availability, and infrastructure architecture**.
 
 ---
 
 # 🐳 Docker Containerization
 
-The frontend and backend were separated into independent Docker images.
+The frontend and backend are packaged as separate Docker images.
 
-### Backend
+## Backend Container
 
-The Node.js/Express backend is packaged into a Docker image using a Node.js Alpine base image.
+The Node.js/Express backend is packaged into a Docker image.
 
 ```text
 BusGo Backend
-     │
-     ▼
-Docker Image
-     │
-     ▼
+      │
+      ▼
+Docker Build
+      │
+      ▼
+Backend Docker Image
+      │
+      ▼
 Amazon ECR
-     │
-     ▼
+      │
+      ▼
 Amazon EKS
-     │
-     ▼
+      │
+      ▼
 Backend Pods
 ```
 
-### Frontend
+---
 
-The React frontend is built using Node.js and served using Nginx inside a Docker container.
+## Frontend Container
+
+The React frontend is built into a production bundle and served using Nginx inside a Docker container.
 
 ```text
 React Source Code
@@ -365,7 +373,7 @@ Amazon EKS
 
 # 📦 Amazon ECR
 
-Amazon Elastic Container Registry (ECR) is used to store the BusGo Docker images.
+Amazon Elastic Container Registry (ECR) stores the BusGo Docker images.
 
 Two repositories are used:
 
@@ -377,9 +385,28 @@ Amazon ECR
 └── busgo-frontend
 ```
 
-The Docker images are tagged using the Git commit SHA during CI/CD deployment.
+Docker images are tagged using the Git commit SHA during CI/CD.
 
-This provides versioned container images and makes deployments more consistent and repeatable.
+For example:
+
+```text
+busgo-backend:<commit-sha>
+busgo-frontend:<commit-sha>
+```
+
+Using commit SHAs provides a clear relationship between:
+
+```text
+Git Commit
+     │
+     ▼
+Docker Image
+     │
+     ▼
+EKS Deployment
+```
+
+This makes deployments versioned and traceable.
 
 ---
 
@@ -406,7 +433,7 @@ The upgraded application runs on **Amazon EKS**, AWS's managed Kubernetes servic
                      │           │            │
                      │     ┌─────┴─────┐      │
                      │     ▼           ▼      │
-                     │  Frontend     Frontend │
+                     │ Frontend     Frontend  │
                      │    Pod          Pod    │
                      │                        │
                      │  ┌──────────────────┐  │
@@ -415,68 +442,15 @@ The upgraded application runs on **Amazon EKS**, AWS's managed Kubernetes servic
                      │           │            │
                      │     ┌─────┴─────┐      │
                      │     ▼           ▼      │
-                     │  Backend      Backend  │
-                     │    Pod          Pod    │
+                     │ Backend       Backend  │
+                     │   Pod            Pod   │
                      └─────────┬──────────────┘
                                │
                                ▼
                     ┌────────────────────────┐
-                    │   Amazon RDS           │
-                    │   PostgreSQL            │
+                    │     Amazon RDS          │
+                    │     PostgreSQL          │
                     └────────────────────────┘
-```
-
----
-
-# 🏗️ Complete EKS Deployment Flow
-
-The complete upgraded architecture can be represented as:
-
-```text
-                              User
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │  AWS Load Balancer  │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │   EKS Frontend      │
-                    │      Service        │
-                    └──────────┬──────────┘
-                               │
-                     ┌─────────┴─────────┐
-                     ▼                   ▼
-              ┌─────────────┐     ┌─────────────┐
-              │  Frontend   │     │  Frontend   │
-              │    Pod      │     │    Pod      │
-              └──────┬──────┘     └──────┬──────┘
-                     │                   │
-                     └─────────┬─────────┘
-                               │
-                            REST API
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │   EKS Backend       │
-                    │      Service        │
-                    └──────────┬──────────┘
-                               │
-                     ┌─────────┴─────────┐
-                     ▼                   ▼
-              ┌─────────────┐     ┌─────────────┐
-              │  Backend    │     │  Backend    │
-              │    Pod      │     │    Pod      │
-              └──────┬──────┘     └──────┬──────┘
-                     │                   │
-                     └─────────┬─────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │   Amazon RDS         │
-                    │   PostgreSQL        │
-                    └─────────────────────┘
 ```
 
 ---
@@ -485,9 +459,9 @@ The complete upgraded architecture can be represented as:
 
 The EKS deployment uses Kubernetes resources to manage the application.
 
-### Backend Deployment
+## Backend Deployment
 
-The backend is deployed with **2 replicas**.
+The backend is deployed with multiple replicas.
 
 ```text
 Backend Deployment
@@ -497,11 +471,13 @@ Backend Deployment
        └── Backend Pod 2
 ```
 
-Running multiple replicas provides better availability and allows Kubernetes to distribute traffic between the pods.
+Multiple replicas improve application availability and allow Kubernetes Services to distribute traffic between pods.
 
-### Frontend Deployment
+---
 
-The frontend is also deployed with **2 replicas**.
+## Frontend Deployment
+
+The frontend is also deployed with multiple replicas.
 
 ```text
 Frontend Deployment
@@ -511,29 +487,34 @@ Frontend Deployment
        └── Frontend Pod 2
 ```
 
-### Kubernetes Services
+---
 
-Two Kubernetes Services are used:
+## Kubernetes Services
+
+The application uses Kubernetes Services to expose and route traffic to the application pods.
 
 ```text
-busgo-frontend
+Frontend Service
        │
-       └── LoadBalancer
+       ▼
+Frontend Pods
 
-busgo-backend
+
+Backend Service
        │
-       └── LoadBalancer
+       ▼
+Backend Pods
 ```
 
-The LoadBalancer Services create AWS Load Balancers that provide external access to the application.
+The externally exposed services use AWS Load Balancers.
 
 ---
 
 # 🔄 Kubernetes Self-Healing
 
-One of the important benefits of Kubernetes is **self-healing**.
+Kubernetes maintains the desired number of replicas.
 
-For example, if one backend pod fails:
+For example:
 
 ```text
 Before:
@@ -542,20 +523,26 @@ Backend Deployment
      │
      ├── Pod 1 ✅
      └── Pod 2 ✅
+```
 
+If a pod fails:
 
-Pod 1 fails
+```text
+Pod 1 ❌
+```
 
+Kubernetes automatically creates a replacement:
 
+```text
 After:
 
 Backend Deployment
      │
-     ├── Pod 1 ❌
-     └── New Pod ✅
+     ├── New Pod ✅
+     └── Pod 2 ✅
 ```
 
-Kubernetes automatically creates a replacement pod to maintain the desired number of replicas.
+This provides a level of self-healing that is not available with a simple process-based deployment.
 
 ---
 
@@ -563,23 +550,23 @@ Kubernetes automatically creates a replacement pod to maintain the desired numbe
 
 As part of the EKS upgrade, PostgreSQL was moved to **Amazon RDS for PostgreSQL**.
 
-The existing database was exported using a PostgreSQL dump and restored into the RDS database.
+The database was migrated using a PostgreSQL dump and restored into the RDS instance.
 
-The database contains the application's persistent data including:
+The database stores application data including:
 
-* Users
-* Bus operators
-* Buses
-* Routes
-* Bus schedules
-* Seats
-* Boarding points
-* Dropping points
-* Bookings
-* Booking passengers
-* Payments
+- Users
+- Bus operators
+- Buses
+- Routes
+- Bus schedules
+- Seats
+- Boarding points
+- Dropping points
+- Bookings
+- Booking passengers
+- Payments
 
-The upgraded architecture keeps the database outside the Kubernetes cluster.
+The database runs outside the Kubernetes cluster.
 
 ```text
 EKS Backend Pods
@@ -587,20 +574,20 @@ EKS Backend Pods
        │ PostgreSQL connection
        ▼
 ┌────────────────────────┐
-│   Amazon RDS            │
-│   PostgreSQL            │
+│     Amazon RDS         │
+│     PostgreSQL         │
 └────────────────────────┘
 ```
 
-The backend connects to RDS using environment variables provided through a **Kubernetes Secret**.
+This separates the application workload from persistent database infrastructure.
 
 ---
 
 # 🔐 Kubernetes Secrets
 
-Database credentials and connection information are not hard-coded into the backend deployment.
+Database configuration is not hard-coded into the application.
 
-The backend receives database configuration through a Kubernetes Secret.
+The backend receives database configuration through Kubernetes Secrets.
 
 ```text
 Kubernetes Secret
@@ -618,15 +605,48 @@ Kubernetes Secret
           Amazon RDS
 ```
 
-This keeps sensitive database configuration separate from the application source code.
+This keeps database configuration separate from the application source code.
+
+> Secret values are not committed to the Git repository.
+
+---
+
+# 🔐 GitHub Actions → AWS Authentication
+
+The CD pipeline uses **GitHub OIDC with AWS IAM**.
+
+Instead of storing permanent AWS access keys in GitHub, the workflow uses an OIDC identity token to authenticate with AWS.
+
+AWS IAM validates the token and allows GitHub Actions to assume the dedicated deployment role.
+
+```text
+GitHub Actions
+       │
+       │ OIDC Token
+       ▼
+┌─────────────────────────┐
+│        AWS IAM          │
+│                         │
+│ GitHubActions-BusGo-EKS │
+│         Role            │
+└────────────┬────────────┘
+             │
+             ▼
+        AWS Services
+          │     │
+          ▼     ▼
+         ECR   EKS
+```
+
+The IAM trust policy restricts access to the BusGo GitHub repository and deployment branch.
+
+This is more secure than storing long-term AWS access keys in GitHub repository secrets.
 
 ---
 
 # 🔄 CI/CD Pipeline
 
-The project uses **GitHub Actions** for continuous integration and continuous deployment.
-
-The upgraded pipeline works as follows:
+GitHub Actions is used for continuous integration and continuous deployment.
 
 ```text
 Developer
@@ -643,7 +663,7 @@ GitHub Repository
 │                     │
 │ Install dependencies│
 │ Build frontend      │
-│ Check backend       │
+│ Validate application│
 └──────────┬──────────┘
            │
            │ CI Success
@@ -654,50 +674,18 @@ GitHub Repository
 │ AWS OIDC            │
 │ Docker Build        │
 │ Push to ECR         │
-│ Update EKS           │
+│ Update EKS          │
 └──────────┬──────────┘
            │
            ▼
-     Running on EKS
+      Running on EKS
 ```
 
 ---
 
-# 🔐 GitHub Actions → AWS Authentication
+# 🚀 CD Deployment Process
 
-The CD pipeline uses **GitHub OIDC with AWS IAM**.
-
-Instead of storing a permanent AWS access key inside GitHub, GitHub Actions receives an OIDC identity token.
-
-AWS IAM validates the token and allows the workflow to assume a dedicated deployment role.
-
-```text
-GitHub Actions
-       │
-       │ OIDC Token
-       ▼
-┌─────────────────────┐
-│     AWS IAM         │
-│                     │
-│ GitHubActions-      │
-│ BusGo-EKS Role      │
-└──────────┬──────────┘
-           │
-           ▼
-       AWS Services
-           │
-      ┌────┴────┐
-      ▼         ▼
-     ECR       EKS
-```
-
-This provides a more secure authentication method than storing long-term AWS credentials in GitHub repository secrets.
-
----
-
-# 🚀 EKS CD Deployment Process
-
-After CI succeeds, the CD workflow performs the following steps:
+After CI succeeds, the CD workflow performs the following operations:
 
 ```text
 GitHub Actions
@@ -721,7 +709,7 @@ Build Frontend Docker Image
 Push Frontend Image to ECR
       │
       ▼
-Connect to EKS
+Connect to Amazon EKS
       │
       ▼
 Update Backend Deployment
@@ -736,27 +724,188 @@ Wait for Kubernetes Rollout
 Verify Pods and Services
 ```
 
-Docker images are tagged using the GitHub commit SHA, which allows each deployment to reference a specific application version.
+The deployment uses the GitHub workflow's commit SHA as the Docker image tag.
 
 ---
 
-# 🔄 Original EC2 Deployment vs EKS Upgrade
+# ☁️ AWS CloudFormation
 
-| Area | Original EC2 Deployment | EKS Upgrade |
-| ---- | ----------------------- | ----------- |
+AWS CloudFormation is used as **Infrastructure as Code (IaC)** for the BusGo infrastructure.
+
+Existing AWS resources were adopted into CloudFormation instead of being deleted and recreated.
+
+The main CloudFormation stack is:
+
+```text
+busgo-infrastructure
+```
+
+The stack currently manages:
+
+```text
+busgo-infrastructure
+│
+├── Amazon ECR
+│   ├── busgo-backend
+│   └── busgo-frontend
+│
+├── Amazon RDS
+│   └── busgo-postgres
+│
+├── RDS Security Group
+│   └── busgo-rds-sg
+│
+├── RDS Subnet Group
+│   └── busgo-rds-subnet-group
+│
+└── GitHub Actions IAM
+    ├── GitHub OIDC Provider
+    └── GitHubActions-BusGo-EKS
+```
+
+### CloudFormation Templates
+
+The infrastructure templates are stored in:
+
+```text
+cloudformation/
+│
+├── ecr.yaml
+├── rds.yaml
+├── rds-sg.yaml
+├── rds-subnet-group.yaml
+└── github-oidc.yaml
+```
+
+### Resource Adoption
+
+The existing resources were imported into CloudFormation using CloudFormation resource import and change sets.
+
+This allowed the infrastructure to become managed by CloudFormation without recreating the existing resources.
+
+The import process covered:
+
+- Existing ECR repositories
+- Existing RDS database
+- Existing RDS security group
+- Existing RDS subnet group
+- Existing GitHub OIDC provider
+- Existing GitHub Actions IAM role
+
+---
+
+# 🏗️ EKS and VPC Infrastructure
+
+The EKS cluster and its networking infrastructure were originally created using **eksctl**.
+
+The resulting EKS and networking resources are backed by CloudFormation stacks generated by `eksctl`.
+
+```text
+eksctl
+  │
+  ├── EKS Cluster CloudFormation Stack
+  │
+  └── EKS Node Group CloudFormation Stack
+```
+
+The application infrastructure managed by the custom `busgo-infrastructure` CloudFormation stack is kept separate from these existing EKS/VPC stacks.
+
+This avoids duplicating ownership of the same AWS resources.
+
+---
+
+# 🏗️ Complete AWS Architecture
+
+```text
+                                  Internet
+                                      │
+                                      ▼
+                           ┌────────────────────┐
+                           │  AWS Load Balancer  │
+                           └──────────┬─────────┘
+                                      │
+                                      ▼
+                         ┌────────────────────────┐
+                         │      Amazon EKS        │
+                         │                        │
+                         │  Frontend Service     │
+                         │       │                │
+                         │   ┌───┴───┐            │
+                         │   ▼       ▼            │
+                         │ Frontend Frontend      │
+                         │   Pod      Pod         │
+                         │                        │
+                         │ Backend Service        │
+                         │       │                │
+                         │   ┌───┴───┐            │
+                         │   ▼       ▼            │
+                         │ Backend  Backend       │
+                         │   Pod      Pod         │
+                         └──────────┬─────────────┘
+                                    │
+                                    ▼
+                          ┌─────────────────────┐
+                          │   Amazon RDS         │
+                          │   PostgreSQL         │
+                          └─────────────────────┘
+
+
+       GitHub Actions
+             │
+             │ OIDC
+             ▼
+       ┌───────────────┐
+       │   AWS IAM     │
+       │ Deployment    │
+       │     Role      │
+       └───────┬───────┘
+               │
+          ┌────┴────┐
+          ▼         ▼
+        Amazon    Amazon
+         ECR       EKS
+          │
+          │ Docker Images
+          ▼
+    ┌───────────────┐
+    │               │
+    │ busgo-backend │
+    │ busgo-frontend│
+    │               │
+    └───────────────┘
+
+
+       CloudFormation
+             │
+             ▼
+    ┌──────────────────────┐
+    │ busgo-infrastructure │
+    └──────────┬───────────┘
+               │
+       ┌───────┼──────────┐
+       ▼       ▼          ▼
+      ECR     RDS       IAM/OIDC
+```
+
+---
+
+# 🔄 EC2 Deployment vs EKS Upgrade
+
+| Area | Original EC2 | EKS Upgrade |
+| ---- | ------------ | ----------- |
 | **Application Hosting** | AWS EC2 | Amazon EKS |
-| **Application Packaging** | Direct Node.js/Nginx deployment | Docker containers |
+| **Application Packaging** | Direct deployment | Docker containers |
 | **Backend Management** | PM2 | Kubernetes Deployment |
+| **Frontend** | Nginx on EC2 | Nginx container |
 | **Scaling** | Manual | Kubernetes replicas |
-| **Self-Healing** | Limited/manual | Kubernetes automatically replaces failed pods |
-| **Frontend** | Nginx on EC2 | Nginx container on EKS |
+| **Self-Healing** | Manual/process-based | Kubernetes |
 | **Database** | PostgreSQL | Amazon RDS PostgreSQL |
 | **Container Registry** | Not required | Amazon ECR |
 | **Load Balancing** | Nginx / EC2 | AWS Load Balancer + Kubernetes Service |
 | **Deployment** | GitHub Actions → EC2 | GitHub Actions → ECR → EKS |
 | **AWS Authentication** | SSH credentials | GitHub OIDC + IAM |
 | **Orchestration** | PM2 / OS processes | Kubernetes |
-| **Replicas** | Manually managed | Kubernetes-managed replicas |
+| **Infrastructure as Code** | Limited | AWS CloudFormation |
 
 ---
 
@@ -766,7 +915,7 @@ Docker images are tagged using the GitHub commit SHA, which allows each deployme
 User
   │
   ▼
-Login / Register
+Register / Login
   │
   ▼
 Search Bus
@@ -801,9 +950,9 @@ Booking History
 
 ---
 
-# 📊 Database Structure
+# 🗄️ Database Structure
 
-The application uses PostgreSQL with the following main tables:
+The application uses PostgreSQL with the following main entities:
 
 ```text
 users
@@ -829,21 +978,21 @@ routes
        └── dropping_points
 ```
 
-The database was successfully migrated from the original PostgreSQL deployment to Amazon RDS PostgreSQL as part of the infrastructure upgrade.
+The PostgreSQL database was migrated to Amazon RDS as part of the infrastructure upgrade.
 
 ---
 
 # 🧪 Deployment Verification
 
-The upgraded EKS deployment was verified using Kubernetes and API-level testing.
+The EKS deployment was verified using Kubernetes commands and application-level testing.
 
-### Kubernetes Cluster
+### Kubernetes Nodes
 
 ```bash
 kubectl get nodes
 ```
 
-The EKS worker nodes were successfully registered and reported a `Ready` status.
+The EKS worker nodes were successfully registered with the cluster.
 
 ### Application Pods
 
@@ -851,12 +1000,15 @@ The EKS worker nodes were successfully registered and reported a `Ready` status.
 kubectl get pods
 ```
 
-The application was deployed with:
+The deployment runs multiple frontend and backend replicas.
 
-```text
-2 × Backend Pods
-2 × Frontend Pods
+### Services
+
+```bash
+kubectl get svc
 ```
+
+The Kubernetes Services expose the application components and provide traffic routing to the pods.
 
 ### Backend Health Check
 
@@ -888,113 +1040,179 @@ Expected response:
 }
 ```
 
-### Final Application Test
+### CI/CD Verification
 
-The frontend was accessed through the AWS Load Balancer and the complete BusGo booking workflow was tested successfully.
-
----
-
-# 📂 Core Development Areas
-
-This project demonstrates hands-on experience with:
-
-* Full-stack web development
-* React.js frontend development
-* Node.js backend development
-* Express.js REST API development
-* PostgreSQL database integration
-* JWT authentication
-* Protected API routes
-* CRUD operations
-* Bus search and filtering
-* Seat selection workflows
-* Booking management
-* Payment workflow implementation
-* Docker containerization
-* Amazon ECR
-* Amazon EKS
-* Kubernetes Deployments
-* Kubernetes Services
-* Kubernetes replicas
-* Kubernetes self-healing
-* AWS Load Balancers
-* Amazon RDS PostgreSQL
-* Kubernetes Secrets
-* AWS IAM
-* GitHub OIDC
-* GitHub Actions CI/CD
-* Original AWS EC2 deployment
-* Nginx configuration
-* PM2 process management
-* Git and GitHub workflow
-
----
-
-# ☁️ Current AWS Architecture
-
-The upgraded BusGo architecture uses the following AWS services:
+The GitHub Actions pipeline was successfully verified with:
 
 ```text
-AWS
-│
-├── Amazon EKS
-│     │
-│     ├── Frontend Deployment
-│     │     ├── Frontend Pod
-│     │     └── Frontend Pod
-│     │
-│     └── Backend Deployment
-│           ├── Backend Pod
-│           └── Backend Pod
-│
-├── Amazon ECR
-│     ├── busgo-frontend
-│     └── busgo-backend
-│
-├── Amazon RDS
-│     └── PostgreSQL
-│
-├── AWS Load Balancer
-│     ├── Frontend
-│     └── Backend
-│
-└── AWS IAM
-      └── GitHub Actions OIDC Role
+CI  →  Passed
+CD  →  Passed
 ```
+
+The CD pipeline successfully:
+
+- Authenticated with AWS using OIDC
+- Built Docker images
+- Pushed images to Amazon ECR
+- Updated Kubernetes deployments
+- Completed Kubernetes rollouts
+- Verified application services
+
+---
+
+# 📂 Project Structure
+
+```text
+BusGo/
+│
+├── client/
+│   ├── src/
+│   ├── Dockerfile
+│   └── .dockerignore
+│
+├── server/
+│   ├── db/
+│   ├── Dockerfile
+│   └── .dockerignore
+│
+├── k8s/
+│   ├── backend.yaml
+│   └── frontend.yaml
+│
+├── cloudformation/
+│   ├── ecr.yaml
+│   ├── rds.yaml
+│   ├── rds-sg.yaml
+│   ├── rds-subnet-group.yaml
+│   └── github-oidc.yaml
+│
+├── .github/
+│   └── workflows/
+│       ├── ci.yml
+│       └── cd.yml
+│
+├── .gitignore
+└── README.md
+```
+
+---
+
+# 🔐 Security Considerations
+
+The project follows several security practices:
+
+- JWT authentication for protected application workflows
+- Database credentials supplied through Kubernetes Secrets
+- AWS authentication through GitHub OIDC
+- No long-term AWS access keys required by GitHub Actions
+- IAM role with limited ECR and EKS permissions
+- IAM trust policy restricted to the BusGo GitHub repository
+- RDS configured as private/non-publicly accessible
+- RDS security group restricts PostgreSQL access to the EKS-related security group
+- Environment-specific configuration separated from source code
+- Sensitive `.env` files excluded through `.gitignore`
+
+---
+
+# 📊 Infrastructure Summary
+
+| AWS Service | Purpose |
+| ----------- | ------- |
+| **Amazon EKS** | Kubernetes container orchestration |
+| **Amazon ECR** | Docker image registry |
+| **Amazon RDS PostgreSQL** | Managed relational database |
+| **AWS Load Balancer** | External application traffic |
+| **AWS IAM** | Access control and GitHub authentication |
+| **AWS IAM OIDC** | Keyless GitHub Actions authentication |
+| **AWS CloudFormation** | Infrastructure as Code |
+| **Amazon VPC** | Network isolation |
+| **EC2** | Original application deployment |
+
+---
+
+# 🎯 What This Project Demonstrates
+
+This project demonstrates practical experience with:
+
+### Full-Stack Development
+
+- React.js
+- Node.js
+- Express.js
+- REST APIs
+- PostgreSQL
+- JWT authentication
+- CRUD operations
+- Booking workflows
+- Seat selection
+- Payment simulation
+
+### Cloud & DevOps
+
+- AWS EC2
+- Amazon EKS
+- Amazon ECR
+- Amazon RDS
+- AWS IAM
+- AWS IAM OIDC
+- AWS Load Balancers
+- Docker
+- Kubernetes
+- Kubernetes Deployments
+- Kubernetes Services
+- Kubernetes Secrets
+- Kubernetes replicas
+- Kubernetes self-healing
+- GitHub Actions
+- CI/CD
+- AWS CloudFormation
+- Infrastructure as Code
+
+### Deployment Engineering
+
+- EC2 → EKS migration
+- Application containerization
+- PostgreSQL → Amazon RDS migration
+- Docker image versioning
+- Automated EKS deployments
+- OIDC-based AWS authentication
+- Existing resource adoption into CloudFormation
+- Infrastructure separation between application resources and EKS/VPC resources
 
 ---
 
 # 🔮 Future Improvements
 
-Potential improvements for the platform include:
+Potential future improvements include:
 
-* Real payment gateway integration
-* HTTPS and custom domain configuration
-* Kubernetes Ingress
-* Application Load Balancer with path-based routing
-* Horizontal Pod Autoscaling
-* Kubernetes resource limits and requests
-* Redis-based caching
-* Email/SMS booking notifications
-* Advanced seat availability management
-* Admin dashboard
-* Bus operator management
-* Enhanced monitoring and logging
-* Centralized application logging
-* AWS CloudWatch monitoring
-* Infrastructure as Code using Terraform or AWS CDK
+- HTTPS with a custom domain
+- Kubernetes Ingress / AWS Application Load Balancer
+- Horizontal Pod Autoscaling
+- Kubernetes resource requests and limits
+- Redis caching
+- Real payment gateway integration
+- Email/SMS booking notifications
+- Admin dashboard
+- Bus operator management
+- Advanced seat availability management
+- AWS CloudWatch monitoring
+- Centralized application logging
+- Distributed tracing
+- Automated database backups
+- Disaster recovery strategy
+- Terraform or AWS CDK evaluation
 
 ---
 
 # 👨‍💻 Developer
 
-**Vishwajeet K. Mahore**
+## Vishwajeet K. Mahore
 
-Full Stack Software Developer
+**Software Developer | Full-Stack & Cloud**
 
-### Core Technologies
+### Technologies
 
-`React.js` · `Node.js` · `Express.js` · `JavaScript` · `PostgreSQL` · `REST APIs` · `Docker` · `Kubernetes` · `Amazon EKS` · `Amazon ECR` · `Amazon RDS` · `AWS EC2` · `Nginx` · `PM2` · `GitHub Actions` · `AWS IAM` · `Git` · `GitHub`
+`React.js` · `Node.js` · `Express.js` · `JavaScript` · `PostgreSQL` · `REST APIs` · `Docker` · `Kubernetes` · `Amazon EKS` · `Amazon ECR` · `Amazon RDS` · `AWS EC2` · `AWS IAM` · `AWS CloudFormation` · `GitHub Actions` · `Nginx` · `PM2` · `Git` · `GitHub`
 
 ---
 
