@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: BusGo ECR repositories
+
+Resources:
+
+  BackendRepository:
+    Type: AWS::ECR::Repository
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      RepositoryName: busgo-backend
+      ImageScanningConfiguration:
+        ScanOnPush: false
+      ImageTagMutability: MUTABLE
+
+  FrontendRepository:
+    Type: AWS::ECR::Repository
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      RepositoryName: busgo-frontend
+      ImageScanningConfiguration:
+        ScanOnPush: false
+      ImageTagMutability: MUTABLE
