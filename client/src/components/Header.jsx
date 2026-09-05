@@ -2,8 +2,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   Bus01Icon,
-  Train01Icon,
-  Hotel01Icon,
   Book02Icon,
   HelpCircleIcon,
   UserCircleIcon,
@@ -31,55 +29,55 @@ const Header = () => {
         <nav className="header-products">
           <Link to="/" className="header-product active">
             <HugeiconsIcon icon={Bus01Icon} size={20} strokeWidth={1.5} />
-            <span>Bus tickets</span>
+            <span>Bus</span>
           </Link>
-
-{/*
-          <div className="header-product">
-            <HugeiconsIcon icon={Train01Icon} size={20} strokeWidth={1.5} />
-            <span>Train tickets</span>
-          </div>
-
-          <div className="header-product">
-            <HugeiconsIcon icon={Hotel01Icon} size={20} strokeWidth={1.5} />
-            <span>Hotels</span>
-          </div> 
-*/}
         </nav>
 
         {/* Right Navigation */}
         <nav className="header-actions">
-          {isAuthenticated && (
+          {/* Bookings */}
+          {isAuthenticated ? (
             <Link to="/dashboard" className="header-action">
               <HugeiconsIcon icon={Book02Icon} size={22} strokeWidth={1.5} />
               <span>Bookings</span>
             </Link>
-          )}
-
-          {!isAuthenticated && (
+          ) : (
             <Link to="/login" className="header-action">
               <HugeiconsIcon icon={Book02Icon} size={22} strokeWidth={1.5} />
               <span>Bookings</span>
             </Link>
           )}
 
+          {/* Help */}
           <button className="header-action header-action-button">
-            <HugeiconsIcon icon={HelpCircleIcon} size={22} strokeWidth={1.5} />
+            <HugeiconsIcon
+              icon={HelpCircleIcon}
+              size={22}
+              strokeWidth={1.5}
+            />
             <span>Help</span>
           </button>
 
+          {/* User */}
           {isAuthenticated ? (
-            <button
-              className="header-action header-action-button"
-              onClick={handleLogout}
-            >
-              <HugeiconsIcon
-                icon={UserCircleIcon}
-                size={22}
-                strokeWidth={1.5}
-              />
-              <span>{user?.name || "Logout"}</span>
-            </button>
+            <>
+              <div className="header-action">
+                <HugeiconsIcon
+                  icon={UserCircleIcon}
+                  size={22}
+                  strokeWidth={1.5}
+                />
+                <span>{user?.name || "User"}</span>
+              </div>
+
+              {/* Logout */}
+              <button
+                className="header-action header-action-button logout-button"
+                onClick={handleLogout}
+              >
+                <span>Logout</span>
+              </button>
+            </>
           ) : (
             <Link to="/login" className="header-action">
               <HugeiconsIcon
