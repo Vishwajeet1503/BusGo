@@ -1,5 +1,6 @@
 const crypto = require("crypto");
 const pool = require("../db/database");
+const { sendBookingNotification } = require("../services/notification");
 
 const createBooking = async (req, res) => {
   const client = await pool.connect();
@@ -145,18 +146,35 @@ const createBooking = async (req, res) => {
 
     const scheduleResult = await client.query(
       `
-      SELECT
-        id,
-        bus_id,
-        route_id,
-        departure_time,
-        arrival_time,
-        base_price,
-        duration_minutes
-      FROM bus_schedules
-      WHERE id = $1
-      FOR SHARE
-      `,
+  SELECT
+    bs.id,
+    bs.bus_id,
+    bs.route_id,
+    bs.departure_time,
+    bs.arrival_time,
+    bs.base_price,
+    bs.duration_minutes,
+
+    bus.bus_number,
+    bo.name AS bus_operator,
+
+    r.source,
+    r.destination
+
+  FROM bus_schedules bs
+
+  JOIN buses bus
+    ON bs.bus_id = bus.id
+
+  JOIN bus_operators bo
+    ON bus.operator_id = bo.id
+
+  JOIN routes r
+    ON bs.route_id = r.id
+
+  WHERE bs.id = $1
+  FOR SHARE
+  `,
       [scheduleId],
     );
 
@@ -399,7 +417,43 @@ const createBooking = async (req, res) => {
     await client.query("COMMIT");
 
     // --------------------------------------------------
-    // 18. Send successful response
+    // 18. Send booking notifications
+    // --------------------------------------------------
+
+    try {
+      const customerName = passengers[0].name.trim();
+
+      const notificationResult = await sendBookingNotification({
+        phone: `91${whatsapp}`,
+        email,
+        customerName,
+        bookingId: booking.booking_reference,
+        travelDate,
+
+        busOperator: schedule.bus_operator,
+        busNumber: schedule.bus_number,
+
+        source: schedule.source,
+        destination: schedule.destination,
+
+        boardingPoint: boardingResult.rows[0].name,
+        droppingPoint: droppingResult.rows[0].name,
+
+        departureTime: boardingResult.rows[0].departure_time,
+        arrivalTime: droppingResult.rows[0].arrival_time,
+
+        seatNumbers: seatsResult.rows.map((seat) => seat.seat_number),
+      });
+
+      console.log("Booking notifications:", notificationResult);
+    } catch (notificationError) {
+      // Notification failure should not affect
+      // an already successful booking.
+      console.error("Booking notification failed:", notificationError);
+    }
+
+    // --------------------------------------------------
+    // 19. Send successful response
     // --------------------------------------------------
 
     return res.status(201).json({
@@ -424,7 +478,7 @@ const createBooking = async (req, res) => {
     });
   } catch (error) {
     // --------------------------------------------------
-    // ROLLBACK
+    // 20. ROLLBACK
     // --------------------------------------------------
 
     await client.query("ROLLBACK");
@@ -462,7 +516,7 @@ const createBooking = async (req, res) => {
 };
 
 // --------------------------------------------------
-// Get User Bookings.
+// 21. Get User Bookings.
 // --------------------------------------------------
 
 const getUserBookings = async (req, res) => {
@@ -741,7 +795,7 @@ const cancelBooking = async (req, res) => {
         AND user_id = $2
       FOR UPDATE
       `,
-      [bookingId, userId]
+      [bookingId, userId],
     );
 
     if (bookingResult.rows.length === 0) {
@@ -771,8 +825,7 @@ const cancelBooking = async (req, res) => {
 
       return res.status(400).json({
         success: false,
-        message:
-          "Only confirmed bookings can be cancelled",
+        message: "Only confirmed bookings can be cancelled",
       });
     }
 
@@ -780,9 +833,7 @@ const cancelBooking = async (req, res) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const travelDate = new Date(
-      booking.travel_date
-    );
+    const travelDate = new Date(booking.travel_date);
 
     travelDate.setHours(0, 0, 0, 0);
 
@@ -791,8 +842,7 @@ const cancelBooking = async (req, res) => {
 
       return res.status(400).json({
         success: false,
-        message:
-          "Past bookings cannot be cancelled",
+        message: "Past bookings cannot be cancelled",
       });
     }
 
@@ -803,7 +853,7 @@ const cancelBooking = async (req, res) => {
       SET status = 'CANCELLED'
       WHERE id = $1
       `,
-      [bookingId]
+      [bookingId],
     );
 
     // Simulated refund
@@ -814,7 +864,7 @@ const cancelBooking = async (req, res) => {
       WHERE booking_id = $1
         AND status = 'SUCCESS'
       `,
-      [bookingId]
+      [bookingId],
     );
 
     await client.query("COMMIT");
@@ -828,21 +878,15 @@ const cancelBooking = async (req, res) => {
         refundAmount: booking.total_amount,
       },
     });
-
   } catch (error) {
     await client.query("ROLLBACK");
 
-    console.error(
-      "Cancel booking error:",
-      error
-    );
+    console.error("Cancel booking error:", error);
 
     res.status(500).json({
       success: false,
-      message:
-        "Failed to cancel booking",
+      message: "Failed to cancel booking",
     });
-
   } finally {
     client.release();
   }
