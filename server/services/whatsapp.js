@@ -26,18 +26,75 @@ async function sendWhatsAppMessage(
         type: "template",
 
         template: {
-          name: "jaspers_market_order_confirmation_v1",
+          name: "busgo_booking_confirmation",
           language: {
-            code: "en_US",
+            code: "en",
           },
 
           components: [
             {
               type: "body",
               parameters: [
-                { type: "text", text: customerName },
-                { type: "text", text: bookingId },
-                { type: "text", text: travelDate },
+                {
+                  type: "text",
+                  parameter_name: "customer_name",
+                  text: customerName,
+                },
+                {
+                  type: "text",
+                  parameter_name: "booking_id",
+                  text: bookingId,
+                },
+                {
+                  type: "text",
+                  parameter_name: "bus_operator",
+                  text: busOperator,
+                },
+                {
+                  type: "text",
+                  parameter_name: "bus_number",
+                  text: busNumber,
+                },
+                {
+                  type: "text",
+                  parameter_name: "source",
+                  text: source,
+                },
+                {
+                  type: "text",
+                  parameter_name: "destination",
+                  text: destination,
+                },
+                {
+                  type: "text",
+                  parameter_name: "boarding_point",
+                  text: boardingPoint,
+                },
+                {
+                  type: "text",
+                  parameter_name: "dropping_point",
+                  text: droppingPoint,
+                },
+                {
+                  type: "text",
+                  parameter_name: "travel_date",
+                  text: travelDate,
+                },
+                {
+                  type: "text",
+                  parameter_name: "departure_time",
+                  text: departureTime,
+                },
+                {
+                  type: "text",
+                  parameter_name: "arrival_time",
+                  text: arrivalTime,
+                },
+                {
+                  type: "text",
+                  parameter_name: "seat_numbers",
+                  text: seatNumbers.join(", "),
+                },
               ],
             },
           ],
@@ -51,7 +108,7 @@ async function sendWhatsAppMessage(
       },
     );
 
-    console.log("WhatsApp template message sent:", response.data);
+    console.log("WhatsApp booking template sent:", response.data);
 
     return {
       success: true,
